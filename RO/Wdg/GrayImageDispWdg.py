@@ -282,6 +282,7 @@ class MaskInfo(object):
         
         Returns the transformed image.
         """
+        print("about to apply mask")
         if (not self.wdg) or (not self.wdg.getBool()):
             return im
             
@@ -299,6 +300,7 @@ class MaskInfo(object):
         # merge mask and image
         rgbim = im.convert("RGB")
         rgbim.paste(rgbMask, mask=transMask)
+        print("applied mask")
         return rgbim
 
     def setWdg(self, wdg):
@@ -1135,7 +1137,8 @@ class GrayImageWdg(tkinter.Frame, RO.AddCallback.BaseMixin):
 
             )
             #if self.mask != None:
-            if numpy.any(numpy.equal(self.mask, None)):
+            print(self.mask)
+            if numpy.any(numpy.not_equal(self.mask, None)):
                 newTuple = subFrameShapeIJ[::-1]
                 theTuple=(newTuple[0], newTuple[1])
                 self.scaledMask = Image.frombuffer(

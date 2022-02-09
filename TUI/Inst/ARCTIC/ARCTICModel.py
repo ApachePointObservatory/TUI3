@@ -263,7 +263,10 @@ class _Model (object):
         # just to keep the system more predictable. The result is that the full image size
         # is the same for 3x3 binning regardless of whether you read one amp or four,
         # and as a result you lose one row and one column when you read one amp.
+        print(binFac)
+        
         assert len(binFac) == 2, "binFac must have 2 elements; binFac = %r" % binFac
+        assert binFac[0] and binFac[1] != 0 #added shane 2/9/2022 just to point out there is an error here ....not sure if its due to python 3 something or other or always been here
         return [(4096, 4096)[ind] // int(2 * binFac[ind]) * 2 for ind in range(2)]
 
     def minCoord(self, binFac=(1,1)):
