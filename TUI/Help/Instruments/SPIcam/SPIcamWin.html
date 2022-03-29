@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<head>
+   <title>TUI:Instruments:SPIcam:SPIcam window</title>
+</head>
+<body>
+
+<h2><a href="../../index.html">TUI</a>:<a href="../index.html">Instruments</a>:<a href="index.html">SPIcam</a>:SPIcam window</h2>
+
+<p>Displays the current status of the Seaver Prototype Imaging camera (SPIcam) and allows you to change the configuration. Normally only the most common status is displayed and the configuration controls are hidden. Various buttons show additional information. Information is displayed in the order light takes going through the instrument (except that the shutter is just behind the mask).
+
+<p>CCD coordinates are always binned. 1,1 is the lower left pixel and 2048,1028 is the upper right pixel when binned 1x1.
+
+<p>Pushing the "Config" button displays configuration controls (each to the right of its corresponding item of status). Select TUI:Save Window Positions to remember the state of this checkbutton.
+<ul>
+	<li>Controls with a colored background will be changed when you hit Apply.
+	<li>The contextual menu on each control can return that control to the current setting of the instrument.
+</ul>
+
+<p>Basic items (always shown) are as follows:
+
+<ul>
+	<li><a name="Filter"></a><b>Filter</b>: the current filter set.
+</ul>
+
+<p><a name="ShowCCD"></a>Pushing the <b>CCD</b> button shows the following image-specific items.
+<ul>
+	<li><a name="Bin"></a><b>Bin</b>: binning factor
+	<li><a name="Window"></a><b>Window</b> (aka subframe): portion of the data that is read and saved (the overscan is also saved; see next item). Specified as the lower left corner (min x,y) and the upper right corner (max x,y) of the data, inclusive, in binned pixels.
+	<li><a name="Overscan"></a><b>Overscan</b>: additional <b>unbinned</b> pixels that are read beyond the imaging area of the CCD and saved to the image file. The X overscan region is a good bias overscan. The edge pixels can have artifacts, so the FITS header card for the bias section ("BIASSEC") is the X overscan region inset by two pixels from each edge.
+
+	<p><img alt="Window and overscan" src="Overscan.png">
+</ul>
+
+<p><a name="Presets"></a><b>Presets</b> allows you to save and restore named configurations. This is only visible if Config is checked.
+
+<ul>
+	<li>Use Presets:Edit:Save to save the state of the configuration controls as a named preset. Note that it saves the state of the controls, not the actual state of the instrument, so you can save any preset you like without commanding the instrument.
+	<li>The Presets:Edit menu also allows to rename and delete saved presets.
+	<li>Select a named preset to set the configuration controls to that preset. Then change any controls you like and press Apply to apply.
+	<li>Presets are saved in a file whose location is given in TUI:About TUI.
+</ul>
+
+<p>Below the items is a status bar that shows help and the state of the currently executing configuration command.
+
+<p><a name="CmdButtons"></a>The buttons along the bottom are as follows:
+
+<ul>
+	<li><b>Expose...</b>: opens the separate SPIcam <a href="../ExposeWin.html">Expose window</a>.
+	<li><b>Config</b>: show or hide the configuration controls.
+	<p>The following are only available if the configuration controls are showing:
+	<li><b>Apply</b>: apply the requested changes by sending a series of commands to SPIcam.
+	<li><b>X</b>: cancel your pending configuration changes. The current command is allowed to finish, but any subsequent commands are flushed.
+	<li><b>Current</b>: reset all configuration widgets to the current state of the instrument.
+</ul>
+
+</body>
+</html>

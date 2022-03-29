@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<head>
+   <title>TUI:Instruments:Expose Window</title>
+</head>
+<body>
+
+<h2><a href="../index.html">TUI</a>:<a href="index.html">Instruments</a>:Expose Window</h2>
+
+<p>This describes the exposure window used by each instrument (the graphical interface for the hub's <code>expose</code> command). Details differ for each instrument, but the basics are identical. To open the expose window for a given instrument, bring up that instrument's main window, then press the Expose... button along the bottom.
+
+<h3>Sound cues</h3>
+
+<p>An "Exposure Begins" sound cue is played as each exposure begins, or at most once every 30 seconds (to avoid aural overload for sequences of short exposures). An "Exposure Ends" sound cue is played for most instruments (not for Agile because the end of one Agile exposure is the beginning of the next). You may choose alternate sound cues in <a href="../TUIMenu/PreferencesWin.html#Sounds">Preferences:Sounds</a>.
+
+<h3>Exposure Status</h3>
+
+<p>The top panel shows the status of the current exposure sequence (regardless of who started it).
+
+<ul>
+	<li><a name="SeqStatus"></a>Seq Status: information about the current sequence
+	<li><a name="ExpStatus"></a>Exp Status: information about the current exposure
+	<li><a name="UserStatus"></a>User: who started the current sequence; if its your sequence then the text says "Me"; if it's a collaborator (somebody logged in with the same program name as you) then the next indicates that.
+	<li><a name="FileNameStatus"></a>File: the file name for the current exposure, or the most recent exposure if not exposing. For instruments with more than one camera (e.g. DIS) there is a separate line for each camera.
+	<li><a name="CommentStatus"></a>Comment: the user's comment, if any. Note: as I write this TUI has no way of getting this information from the hub; until that is fixed this line will remain blank.
+</ul>
+
+<h3>Exposure Controls</h3>
+
+<p>The bottom portion shows the input and command widgets:
+
+<ul>
+	<li><a name="Download"></a>Download: exposure download preferences. Note that these preferences only apply to this one camera. To change the global preferences for all cameras press More...
+	<ul>
+		<li><b>Every</b>: controls which images are downloaded.
+		<ul>
+		    <li>0 = no download
+		    <li>1 = download every image
+		    <li>N = download every Nth image
+		    <li>-1 = download current images; if TUI can't keep up (e.g. slow bandwidth) then some images are skipped.
+		</ul>
+		<li><b>View Image</b>: controls whether to display downloaded images in ds9. Disabled if Every is 0 (no downloads).
+		<li><b>More...</b>: shows the <a href="../TUIMenu/PreferencesWin.html#Exposures">global exposure preferences</a>, including extras such as the download directory (Save To). Remember that global preferences apply to <b>all</b> cameras, and remember that you must press Save or Apply for changes to global preferences to have any effect.
+	</ul>
+	<li><a name="TypeInput"></a><b>Object, Flat, Dark, Bias</b>: the type of exposure. Some instruments (e.g. NICFPS and TripleSpec) do not support all of these types.
+	<li><a name="ExpTimeInput"></a><b>Time</b>: the length of the exposure, in seconds, min:sec or hrs:min:sec, depending on how many colons you enter.
+	<li><a name="NumExpInput"></a><b>#Exp</b>: the number of exposures to take in this sequence.
+	<li><a name="CameraInput"></a><b>Cameras</b>: (only present for instruments such as DIS that have more than one camera). The camera(s) from which to save images. At least one camera must be specified.
+	<li><a name="FileNameInput"></a><b>File Name</b>: the name of the your file. The name is relative to your program's directory and the file number and extension are automatically added. For example if the file name is "mysubdir/test" and the file number is 27 then the next image will be <code><i>your program's directory</i>/mysubdir/test.0027.fits</code>. A leading slash will be ignored; files are always placed in your program's directory.
+	<li><a name="CommentInput"></a><b>Comment</b>: an optional comment about the exposures. This information is saved to the FITS header (truncated if necessary) and displayed to other users.
+</ul>
+
+<p>The penultimate line is the status bar; as usual it shows replies to any commands you personally start, as well as help and error messages if you try to enter something invalid.
+
+<p>And the command buttons take their appointed place along the bottom:
+<ul>
+	<li><a name="StartButton"></a><b>Start</b>: start the exposure sequence.
+	<li><a name="PauseButton"></a><b>Pause</b>: pause the current exposure (if one is being taken) or exposure sequence. The button then changes to <b>Resume</b>.
+	<li><a name="PauseSeqButton"></a><b>Pause Seq</b>: finish the current exposure normally, then pause the sequence. The button then changes to <b>Resume Seq</b>. This button only appears if the instrument does not support pausing an exposure.
+	<li><a name="StopExpButton"></a><b>Stop</b>: halt the current exposure immediately and <b>save</b> the current image. No more exposures are taken.
+	<li><a name="StopSeqButton"></a><b>Stop Seq</b>: finish the exposure normally, then stop the exposure sequence. This button only appears if the instrument does not support stopping an exposure early.
+	<li><a name="AbortButton"></a><b>Abort</b>: halt the current exposure immediately and <b>discard</b> the image. No more exposures are taken.
+	<li><b>Config...</b>: opens the window that displays and allows you to change the instrument configuration.
+	<p>Note:
+	<li>You are allowed to pause, stop or halt any collaborator's exposures. Please use with caution!
+</ul>
+
+</body>
+</html>

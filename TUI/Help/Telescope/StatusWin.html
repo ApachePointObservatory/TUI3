@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+   <title>TUI:Telescope:StatusWin</title>
+</head>
+<body>
+
+<h2><a href="../index.html">TUI</a>:<a href="index.html">Telescope</a>:StatusWin</h2>
+
+<p>The Status window shows the status of the telescope and (on unix and Windows) contains TUI's menus. This window cannot be closed. Items in the various menus are described <a href="../index.html">here</a>.
+
+<p><a name="NetPos"></a>The top panel shows user-specified information about the current target and also the progress of slews:
+<ul>
+	<li><b>Name</b>: object name
+	<li>Obj Pos1/2 (e.g. RA/Dec): net object position. including object and arc offsets.
+	<li><b>CSys</b>: <a href="../Telescope/CoordSys.html">coordinate system</a>.
+	<li><b>Rot</b>: user-specified rotator angle and <a href="../Telescope/RotTypes.html">type of rotation</a>.
+</ul>
+
+
+<p><a name="Offsets"></a>The next panel shows certain <a href="OffsetTypes.html">offsets</a>:
+<ul>
+	<li>Object Arc Off: the current <a href="OffsetTypes.html#ObjectArc">object arc offset</a>.
+	<li>Object Arc Off X,Y: the current object arc offset rotated to instrument xy coordinates (this may vary if the field rotates).
+	<li>Bore X,Y: the current position of the <a href="OffsetTypes.html#Boresight">boresight</a> on the instrument.
+</ul>
+
+<p><a name="Misc"></a>The third panel shows miscellaneous information:
+<ul>
+	<li><b>HA</b>: hour angle of the object
+	<li><b>LMST</b>: local mean sidereal time at the observatory
+	<li><b>UTC</b>: coordinated universal time
+	<p>
+	<li><b>State of guiding</b>. <b>Warning</b> this summary may not be misleading if people are messing with more than one guider. When in doubt, examine the status in individual guide windows (in the Guide menu).
+	<li><b>Airmass</b>
+	<li><b>ZD</b>: zenith distance
+	<p>
+	<li><b>Inst</b>: name of current instrument.
+	<li><b>Focus</b>: user-specified focus offset for the secondary mirror
+	<li><b>GC Focus</b>: user-specified focus offset for the current guide camera (if any)
+</ul>
+
+<p><a name="Axes"></a>The penultimate panel shows the position and status of the various axes: azimuth, altitude and (if present) instrument rotator. For each axis:
+<ul>
+	<li><b>Current Position</b>: the current position as reported by the axis controllers.
+	<li><b>Target Position</b>: the target position (where the telescope should be after slewing to the object).
+	<li><b>TCC Status</b>: what the TCC thinks the axis is doing.
+	<li><b>TCC Error Code</b>: if the TCC has halted the axis, why it did so.
+	<li><b>Axis Controller Status</b>: state of axis controller; blank if OK. If the axis controller is reporting multiple problems (i.e. has set multiple bits set in its status word) then only the most important condition is reported.
+</ul>
+
+<p><a name="StatusBar"></a>The bottom panel shows brief help. Use the Help item in the contextual menu of a control for more detailed help.
+
+</body>
+</html>

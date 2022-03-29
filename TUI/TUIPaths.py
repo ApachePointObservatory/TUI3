@@ -54,7 +54,7 @@ def getAddPaths(ifExists=True):
     
     # remove duplicates
     addPathList = RO.OS.removeDupPaths(addPathList)
-
+    print(addPathList)
     return addPathList
 
 def getGeomFile():

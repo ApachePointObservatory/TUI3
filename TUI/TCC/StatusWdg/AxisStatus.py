@@ -293,7 +293,9 @@ class AxisStatusWdg(tkinter.Frame):
         if indSoundsToPlay:
             indSoundsToPlay = list(indSoundsToPlay)
             indSoundsToPlay.sort()
-            soundsToPlay = list(zip(*indSoundsToPlay)[1])
+            #soundsToPlay = list(zip(*indSoundsToPlay)[1]) commented out shane because it didn't like the [1]
+
+            soundsToPlay = list(zip(*indSoundsToPlay))            
             soundsToPlay.reverse() # since played from back to front
             self.playSounds(soundsToPlay)
         

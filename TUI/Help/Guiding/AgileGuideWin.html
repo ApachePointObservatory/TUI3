@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>TUI:Guiding:Agile Guider</title>
+</head>
+<body>
+
+<h2><a href="../index.html">TUI</a>:<a href="index.html">Guiding</a>:Agile Guider</h2>
+
+<p>A primitive guider for Agile that works from science images. The guider is primitive because the guide loop is in TUI instead of in the hub where it belongs. That will be corrected someday. Meanwhile, use with caution and keep these warnings in mind:
+<ul>
+    <li>Turn guiding off before taking calibration images (or any other images you don't want to guide on).
+    <li>If two users are running this guider at the same time, disaster will result: multiple corrections will be commanded, one for each user!
+    <li>This guider requires TUI 1.7.1 or later (because it requires RO package version 2.3.2 due to its new style of entry widgets).
+</ul>
+
+<h2>How to Install</h2>
+
+<ul>
+    <li>Move or copy the directory AgileGuider (which contains AgileGuideWindow.py and other files) into a <a href="http://www.apo.nmsu.edu/35m_operations/TUI/Scripts/TUIAdditions.html">TUIAdditions</a> directory.
+    <li>If TUI is already running, restart it.
+</ul>
+
+<h2>How to Use</h2>
+
+<ol>
+    <li>Specify a guide star (set <b>Star Pos</b> and <b>Centroid Rad</b>) one of two ways:
+    <ul>
+        <li>Automatically: check the <b>Find</b> box to find the brightest star. The Find routine will search the next Agile exposure for the brightest star and enter Star Pos and Centroid Rad data for you. Find will uncheck itself once it finds a star. But if conditions are unfavorable, it may process several images before it is happy.
+        <li>Manually: enter values for <b>Star Pos</b> and <b>Centroid Rad</b>. Press &lt;tab&gt;, &lt;return&gt; or &lt;enter&gt; to save the data (unsaved data is indicated by a pink background).
+    </ul>
+    <li>Check the <b>Guide</b> box. Then for every Agile image the guider will try to centroid a star at Star Pos and offset the telescope (using boresight offsets) to center the star at that position. However, it will ignore the new image if it is still busy processing an earlier image or if it cannot centroid the star.
+    <li>If the guider is over-correcting, reduce <b>Corr Frac</b>. For exposures shorter than 15 seconds, this is likely to be necessary to avoid following seeing around. For longer exposures a value of 1.0 is recommended.
+    <blockquote><p>Note that older versions of this guider needed a Corr Frac of about 0.5 to function correctly. However, this value now scales an automatic calculation based on the quality of the centroid fit. For reasonably long exposures the automatic calculation should suffice, so a value of 1.0 is recommended.
+    </blockquote>
+</ol>
+
+<p>Notes:
+<ul>
+    <li>The guider will turn itself off if you slew to a new object. However, it will remain on for any kind of offset.
+    <li>The guider never modifies any entry field (Star Pos and Centroid Rad) unless Find is checked.
+    <li>Find overrides Guide, so if you are feeling lucky you can check both. Find will then find a star and Guide will guide on it. The risk is that Find may find a bogus star, which Guide will then try to guide on.
+</ul>
+
+<h2>Future Plans</h2>
+<ul>
+    <li>Move the guide loop into the hub so that multiple users can see what is going on and can control the guider.
+</ul>
+</body>
+</html>

@@ -92,6 +92,11 @@ class _GCamInfo:
 # dictionary of instrument information
 # instrument names must be lowercase
 _GCamInfoDict = {
+    "kcam": _GCamInfo(
+        imSize = (1024, 1024),
+        minExpTime = 0.3,
+        isSlitViewer = True,
+    ),    
     "dcam": _GCamInfo(
         imSize = (1024, 1024),
         minExpTime = 0.3,

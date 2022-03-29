@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<head>
+   <title>TUI:Instruments:Echelle:Echelle window</title>
+</head>
+<body>
+
+<h2><a href="../../index.html">TUI</a>:<a href="../index.html">Instruments</a>:<a href="index.html">Echelle</a>:Echelle window</h2>
+
+<p>Displays the current status of Echelle spectrograph and allows you to change the configuration.
+
+<p>Pushing the "Config" button displays configuration controls (each to the right of its corresponding item of status). Select TUI:Save Window Positions to remember the state of this checkbutton.
+<ul>
+	<li>Controls with a colored background will be changed when you hit Apply.
+	<li>The contextual menu on each control can return that control to the current setting of the instrument.
+</ul>
+
+<p>The status and configuration items are as follows.
+
+<ul>
+	<li><a name="Mirror"></a><b>Cal Mirror</b>. If "Lamps" then the Echelle sees the calibration lamps. If "Sky" then the Echelle sees the sky.
+
+	<li><a name="Lamps"></a><b>Lamps</b>: state of each calibration lamp.
+
+	<li><a name="Filter"></a><b>Cal Filter</b>: current calibration lamp filter. Note that the blue filter is only useful with the quartz calibration lamp.
+</ul>
+
+<p><a name="Presets"></a><b>Presets</b> allows you to save and restore named configurations. This is only visible if Config is checked.
+
+<ul>
+	<li>Use Presets:Edit:Save to save the state of the configuration controls as a named preset. Note that it saves the state of the controls, not the actual state of the instrument, so you can save any preset you like without commanding the instrument.
+	<li>The Presets:Edit menu also allows to rename and delete saved presets.
+	<li>Select a named preset to set the configuration controls to that preset. Then change any controls you like and press Apply to apply.
+	<li>Presets are saved in a file whose location is given in TUI:About TUI.
+</ul>
+
+<p>Below the items is a status bar that shows help and the state of the currently executing configuration command.
+
+<p><a name="CmdButtons"></a>The buttons along the bottom are as follows:
+
+<ul>
+	<li><b>Expose...</b>: opens the separate Echelle <a href="../ExposeWin.html">Expose window</a>.
+	<li><b></b>: show or hide the configuration controls.
+	<p>The following are only available if the configuration controls are showing:
+	<li><b>Apply</b>: apply the requested changes by sending a series of commands to the Echelle.
+	<li><b>X</b>: cancel your pending configuration changes. The current command is allowed to finish, but any subsequent commands are flushed.
+	<li><b>Current</b>: reset all configuration widgets to the current state of the instrument.
+</ul>
+
+</body>
+</html>

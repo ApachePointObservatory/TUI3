@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<head>
+	<title>TUI:Building TUI from Source On Windows</title>
+</head>
+<body>
+
+<h2><a href="index.html">TUI</a>:Building TUI from Source On Windows</h2>
+
+<p>This file is for people who wish to build TUI for Windows from source.
+
+<p>Warning: this is an obscure document and some instructions may be out of date.
+
+<p>Install the Python and the support packages listed under <a href="Installation.html#Unix">unix installation</a>, but with these refinements:
+
+<ul>
+	<li>You will also need to install pywin32.
+	
+	<li>Most of the packages come with binary installers. For those that don't:
+	<ul>
+	    <li>Unpack the directory
+	    <li>Use Command Line to cd to the directory (type cd and drag the folder)
+	    <li>Type "setup.py install". Note: no "python"! Also, if you forget the ".py" you will get a dialog box with a strange error.
+        <li>pyfits may fail to install unless you have the right version of Visual Studio. You can work around this by editing setup.py and commenting out the line of the setup call that mentions the extension (as of this writing the only C extension is optional and not required by TUI).
+    </ul>
+</ul>
+
+<p>To build the TUI Windows Application.
+<ul>
+	<li>Open the terminal
+	<li>cd to the BuildForWindows directory
+	<li>Type "setup.py py2exe"
+	<li>At the end you should have directory TUI_&lt;vers&gt;_Windows. You may zip this up and distribute it.
+</ul>
+
+<p>Note: I don't update my Windows installation very often and when I do it usually breaks the setup.py file. So you may need to do some tweaking. Please let me know of any problems and fixes. -- Russell
+</body>
+</html>
