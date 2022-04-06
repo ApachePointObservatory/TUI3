@@ -293,11 +293,14 @@ class AxisStatusWdg(tkinter.Frame):
         if indSoundsToPlay:
             indSoundsToPlay = list(indSoundsToPlay)
             indSoundsToPlay.sort()
-            #soundsToPlay = list(zip(*indSoundsToPlay)[1]) commented out shane because it didn't like the [1]
+            #soundsToPlay = list(zip(*indSoundsToPlay)[1]) #commented out shane because it didn't like the [1]
 
-            soundsToPlay = list(zip(*indSoundsToPlay))            
+            soundsToPlay = list(zip(*indSoundsToPlay))      
+            soundsToPlay = list(soundsToPlay[1])
             soundsToPlay.reverse() # since played from back to front
-            self.playSounds(soundsToPlay)
+
+      
+            self.playSounds(soundsToPlay) #a fix to maybe fix the tuple error yet doing the same thing?  really not sure what line 296 is doing.
         
     def setCtrlStatus(self, axis, statusWord, isCurrent=True, keyVar=None, *args):
         # print "setCtrlStatus called with axis, statusWord, isCurrent=", axis, statusWord, isCurrent
