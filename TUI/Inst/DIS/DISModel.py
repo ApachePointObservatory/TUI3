@@ -285,12 +285,12 @@ class _Model (object):
         (which in turn updates all self.xxxByGSID entries)
         """
         turretPos, isCurrent = self.turretPos.getInd(0)
-#       print "__updTurretPos: turretPos = %s, isCurrent = %s" % (turretPos, isCurrent)
+        print("__updTurretPos: turretPos = %s, isCurrent = %s" % (turretPos, isCurrent))
         newGratingSetID, turretName = _TurretPosDict.get(turretPos, (None, None))
-#       print "__updTurretPos: gratingSetID = %r, turretName = %r" % (newGratingSetID, turretName)
+        print("__updTurretPos: gratingSetID = %r, turretName = %r" % (newGratingSetID, turretName))
         self.turretName.set((turretName,), isCurrent)
         if (newGratingSetID, isCurrent) != self.gratingSetID.getInd(0):
-#           print "__updTurretPos: updating grating set ID"
+            print("__updTurretPos: updating grating set ID")
             self.gratingSetID.set((newGratingSetID,), isCurrent)
     
     def _updCCDWindow(self, *args, **kargs):

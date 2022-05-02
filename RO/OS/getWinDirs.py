@@ -47,6 +47,8 @@ History:
                     to import win32com.shell).
 2006-02-28 ROwen    Removed py2exe compatibility because it's more appropriate
                     for the py2exe setup.py script.
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
 """
 import pywintypes
 from win32com.shell import shell, shellcon
@@ -65,7 +67,7 @@ def getStandardDir(dirType):
     to dirType, but in practice this constant is NOT defined in win32com.shellcon,
     so it is risky (you'd have to specify an explicit integer and hope it did not change).
     """
-    if dirType == None:
+    if dirType is None:
         return None
     try:
         return shell.SHGetFolderPath(
@@ -92,7 +94,7 @@ def getAppDirs(inclNone = False):
     retDirs = []
     for dirType in (None, shellcon.CSIDL_PROGRAM_FILES):
         path = getStandardDir(dirType)
-        if (path != None) or inclNone:
+        if (path is not None) or inclNone:
             retDirs.append(path)
     return retDirs      
 
@@ -110,7 +112,7 @@ def getAppSuppDirs(inclNone = False):
     retDirs = []
     for dirType in (shellcon.CSIDL_APPDATA, shellcon.CSIDL_COMMON_APPDATA):
         path = getStandardDir(dirType)
-        if (path != None) or inclNone:
+        if (path is not None) or inclNone:
             retDirs.append(path)
     return retDirs
 
@@ -125,7 +127,6 @@ def getDocsDir():
     return getStandardDir(shellcon.CSIDL_PERSONAL)
 
 def getPrefsDirs(inclNone = False):
-    print("TEST WIN PREFS")
     """Return up to two paths: the user's private and shared preferences directory.
     On Windows this is actually the application data directory.
     

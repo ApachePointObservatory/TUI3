@@ -59,6 +59,9 @@ History:
 2014-02-12 ROwen    Added getNamesInGeomFile method to ToplevelSet.
 2014-09-17 ROwen    Now requires json (will not use simplejson).
                     Modified to test for Exception instead of StandardError.
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
+2015-10-23 ROwen    getNames now ignores case when sorting names.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
 """
 __all__ = ['tl_CloseDestroys', 'tl_CloseWithdraws', 'tl_CloseDisabled', 'Toplevel', 'ToplevelSet']
 
@@ -162,7 +165,7 @@ class Toplevel(tkinter.Toplevel):
                 raise
             if doSaveState:
                 self._stateTracker = self.__wdg.getStateTracker()
-                if self._stateTracker == None:
+                if self._stateTracker is None:
                     raise RuntimeError("getStateTracker returned None")
                     
             
@@ -278,7 +281,7 @@ class Toplevel(tkinter.Toplevel):
     def getDoSaveState(self):
         """Returns True if saving state
         """
-        return self._stateTracker != None
+        return self._stateTracker is not None
     
     def getStateIsDefault(self):
         """Returns the state dictionary of the underlying widget and a flag indicating if default
@@ -426,10 +429,10 @@ class ToplevelSet(object):
             raise RuntimeError("toplevel %r already exists" % (name,))
         if defGeom:
             self.defGeomDict[name] = defGeom
-        if defVisible == None:
+        if defVisible is None:
             # if defVisible omitted, see if visible specified
             defVisible = kargs.get("visible", None)
-        if defVisible != None:
+        if defVisible is not None:
             # if we have a default visibility, put it in the dictionary
             self.defVisDict[name] = bool(defVisible)
         geom = self.getDesGeom(name)
@@ -442,7 +445,7 @@ class ToplevelSet(object):
         # restore state, if appropriate
         if newToplevel.getDoSaveState():
             stateDict = self.fileState.get(name)
-            if stateDict != None:
+            if stateDict is not None:
 #                 print "restoring state for Toplevel %s: %s" % (name, stateDict)
                 newToplevel.setState(stateDict)
 #             else:
@@ -490,13 +493,13 @@ class ToplevelSet(object):
     
     def getNames(self, prefix=""):
         """Return all window names of windows that start with the specified prefix
-        (or all names if prefix omitted). The names are in alphabetical order
-        (though someday that may change to the order in which windows are added).
-        
+        (or all names if prefix omitted).
+
+        The names are in alphabetical order, ignoring case.
         The list includes toplevels that have been destroyed.
         """
         nameList = list(self.tlDict.keys())
-        nameList.sort()
+        nameList.sort(key=lambda s: s.lower())
         if not prefix:
             return nameList
         return [name for name in nameList if name.startswith(prefix)]

@@ -141,6 +141,7 @@ History:
 2005-03-01 ROwen    Removed use of (deprecated) xreadlines in the docs.
                     Continue on error; report traceback unless RuntimeError.
 2005-03-15 ROwen    Bug fix: was setting outPath to "" instead of outDir if outFile="".
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
 """
 __all__ = ["procFiles"]
 
@@ -149,7 +150,6 @@ import sys
 import traceback
 import RO.OS
 import RO.SeqUtil
-import collections
 
 def procFiles (
     func,
@@ -160,7 +160,7 @@ def procFiles (
     recursionDepth = None,
 ):
     # make sure func is callable
-    if not isinstance(func, collections.Callable):
+    if not callable(func):
         raise RuntimeError("supplied function is not callable")
 
     # handle case of inPathList being a single string
@@ -197,7 +197,7 @@ def procFiles (
         outDir = os.curdir
     
     # open outFile (if outFile is None, ask user for output file first)
-    if outFile == None:
+    if outFile is None:
         # ask user for output file name
         try:
             import EasyDialogs
@@ -206,7 +206,7 @@ def procFiles (
                 defaultLocation = outDir,
                 fileType = 'TEXT',
             )
-            if outPath == None:
+            if outPath is None:
                 return
 
             sys.stdout = file(outPath, 'w')

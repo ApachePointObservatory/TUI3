@@ -92,11 +92,12 @@ History:
 2010-05-26 ROwen    Modified to use AddCallback 2010-05-26.
 2011-02-18 ROwen    Added allCallbacksEnabled method.
 2014-03-13 ROwen    Added omitDef argument to getValueDict and getValueList.
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
 """
 import itertools
 import RO.AddCallback
 import RO.SeqUtil
-import collections
 
 # formatting functions
 def nullFmt(inputCont):
@@ -151,13 +152,13 @@ class BasicFmt(object):
             return ''
         if self.blankIfDisabled and not inputCont.allEnabled():
             return ''
-        if self.valFmt != None:
+        if self.valFmt is not None:
             valList = [self.valFmt(val) for val in valList]
         if self.rejectBlanks:
             if '' in valList:
                 raise ValueError('must specify all values for %r' % (name,))
         
-        if self.omitName or name == None:
+        if self.omitName or name is None:
             nameStr = ''
         else:
             nameStr = name + self.nameSep
@@ -179,7 +180,7 @@ class VMSQualFmt(object):
         rejectBlanks = True,
         stripPlusses = False,
     ):
-        if valFmt == None:
+        if valFmt is None:
             def blankToQuotes(astr):
                 if astr == '':
                     return '""'
@@ -198,7 +199,7 @@ class VMSQualFmt(object):
             return ''
         if self.blankIfDisabled and not inputCont.allEnabled():
             return ''
-        if self.valFmt != None:
+        if self.valFmt is not None:
             valList = [self.valFmt(val) for val in valList]
         if self.rejectBlanks:
             if '' in valList:
@@ -262,7 +263,7 @@ class BasicContListFmt(object):
             if len(strList) == 0:
                 return ''
 
-        if self.omitName or name == None:
+        if self.omitName or name is None:
             nameStr = ''
         else:
             nameStr = name + self.nameSep
@@ -309,10 +310,10 @@ class WdgCont(RO.AddCallback.BaseMixin):
         self._omitDef = bool(omitDef)
         self._setDefIfAbsent = bool(setDefIfAbsent)
         
-        if formatFunc == None:
+        if formatFunc is None:
             formatFunc = BasicFmt()
         self._formatFunc = formatFunc
-        if not isinstance(self._formatFunc, collections.Callable):
+        if not callable(self._formatFunc):
             raise ValueError('format function %r is not callable' % (self._formatFunc,))
 
         if callFunc:
@@ -462,7 +463,7 @@ class WdgCont(RO.AddCallback.BaseMixin):
         # note: entry may be a singleton or a sequence
         # convert to list before sending to setValueList and let it check length
         vals = valDict.get(self._name, None)
-        if vals != None:
+        if vals is not None:
             self.setValueList(RO.SeqUtil.asSequence(vals))
         elif self._setDefIfAbsent:
             self.restoreDefault()
@@ -534,7 +535,7 @@ class BoolNegCont(WdgCont):
         self._negStr = negStr
         self._omitDef = omitDef
         
-        if wdgNames == None:
+        if wdgNames is None:
             wdgNames = [wdg['text'] for wdg in self._wdgList]
         else:
             wdgNames = RO.SeqUtil.asList(wdgNames)
@@ -660,7 +661,7 @@ class BoolOmitCont(WdgCont):
         self._negStr = negStr
         self._omitDef = omitDef
         
-        if wdgNames == None:
+        if wdgNames is None:
             wdgNames = [wdg['text'] for wdg in self._wdgList]
         else:
             wdgNames = RO.SeqUtil.asList(wdgNames)
@@ -742,7 +743,7 @@ class ContList(WdgCont):
         callFunc = None,
         callNow = False,
     ):
-        if formatFunc == None:
+        if formatFunc is None:
             formatFunc = BasicContListFmt()
 
         WdgCont.__init__(self,

@@ -9,6 +9,8 @@ History:
 2003-11-21 ROwen    Bug fix: __init__ did not check the data.
 2005-06-08 ROwen    Changed PVT to a new-style class.
 2007-07-02 ROwen    Added hasVel method.
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
 """
 __all__ = ["PVT"]
 
@@ -52,7 +54,7 @@ class PVT(object):
         if not self.isValid():
             return None
 
-        if t == None:
+        if t is None:
             t = RO.Astro.Tm.taiFromPySec() * RO.PhysConst.SecPerDay
     
         return self.pos + (self.vel * (t - self.t))
@@ -67,9 +69,9 @@ class PVT(object):
 
         A pvt is valid if all values are known (not None and finite) and time > 0.
         """
-        return  (self.pos != None) and numpy.isfinite(self.pos) \
-            and (self.vel != None) and numpy.isfinite(self.vel) \
-            and (self.t   != None) and numpy.isfinite(self.t) \
+        return  (self.pos is not None) and numpy.isfinite(self.pos) \
+            and (self.vel is not None) and numpy.isfinite(self.vel) \
+            and (self.t   is not None) and numpy.isfinite(self.t) \
             and (self.t > 0)
 
     def set(self, pos=None, vel=None, t=None):
@@ -81,11 +83,11 @@ class PVT(object):
         Errors:
         Raises ValueError if any value is invalid.
         """
-        if pos != None:
+        if pos is not None:
             self.pos = RO.CnvUtil.asFloatOrNone(pos)
-        if vel != None:
+        if vel is not None:
             self.vel = RO.CnvUtil.asFloatOrNone(vel)
-        if t != None:
+        if t is not None:
             self.t = RO.CnvUtil.asFloatOrNone(t)
 
 

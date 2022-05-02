@@ -33,12 +33,13 @@ History:
 2011-06-16 ROwen    Ditched obsolete "except (SystemExit, KeyboardInterrupt): raise" code.
 2013-09-24 ROwen    Added safeCall.
 2014-04-17 ROwen    Added safeCall2, which gives more feedback than safeCall.
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
 """
 __all__ = ["safeCall", "safeCall2", "BaseMixin", "TkButtonMixin", "TkVarMixin"]
 
 import sys
 import traceback
-import collections
 
 def safeCall(func, *args, **kwargs):
     """Call a function; print a traceback and continue if it fails
@@ -120,7 +121,7 @@ class BaseMixin(object):
         self._defCallNow = bool(defCallNow)
         self._callbacks = []
         self._enableCallbacks = True
-        if callFunc != None:
+        if callFunc is not None:
             self.addCallback(callFunc, callNow)
     
     def addCallback(self,
@@ -140,10 +141,10 @@ class BaseMixin(object):
         
         Raises ValueError if callFunc is not callable
         """
-        if callFunc == None:
+        if callFunc is None:
             return
 
-        if not isinstance(callFunc, collections.Callable):
+        if not callable(callFunc):
             raise ValueError("callFunc %r is not callable" % (callFunc,))
         
         # add new function
@@ -151,7 +152,7 @@ class BaseMixin(object):
             self._callbacks.append(callFunc)
         
         # if wanted, call the new function
-        if callNow or (callNow == None and self._defCallNow):
+        if callNow or (callNow is None and self._defCallNow):
             # use _doCallbacks in case it was overridden,
             # but only call this one function
             currCallbacks = self._callbacks
@@ -194,6 +195,7 @@ class BaseMixin(object):
 
         If callbacks are already being executed then this function is a no-op
         """
+        #print("basic do call backs " + str(args) + str(kwargs)) 
 #        print "%s._basicDoCallbacks; _enableCallbacks=%s" % (self, self._enableCallbacks)
         if not self._enableCallbacks:
             return
@@ -221,6 +223,7 @@ class BaseMixin(object):
         
         Subclass this to return something else.
         """
+       
         self._basicDoCallbacks(self)
     
     def _removeAllCallbacks(self):
@@ -261,8 +264,8 @@ class TkButtonMixin(BaseMixin):
             defCallNow = defCallNow,
         )
 
-        if command != None:
-            if not isinstance(command, collections.Callable):
+        if command is not None:
+            if not callable(command):
                 raise ValueError("command %r is not callable" % (command,))
             def doCommand(wdg):
                 return command()

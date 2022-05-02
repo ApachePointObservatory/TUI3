@@ -33,6 +33,8 @@ History:
                     Bug fix: gridWdg would fail if helpText or helpURL was True and the first data widget
                     was missing the associated attribute.
 2011-07-29 ROwen    _BaseGridSet: added __getitem__, __len__  and __length__ to simplify access to widgets.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
+2015-11-05 ROwen    Changed ==/!= True/False to is/is not True/False to modernize the code.
 """
 __all__ = ['Gridder']
 
@@ -183,7 +185,7 @@ class Gridder(object):
         self._nextRow = gs.row + 1
         self._nextCol = gs.nextCol
         self._maxNextCol = max(gs.nextCol, self._nextCol)
-        if cat != None:
+        if cat is not None:
             self.addShowHideWdg(cat, gs.wdgSet)
         return gs
     
@@ -272,7 +274,7 @@ class Gridder(object):
         """
         self._nextRow = int(row)
 
-        if col != None:
+        if col is not None:
             newDefCol = int(col)
         else:
             newDefCol = self._maxNextCol + 1
@@ -367,7 +369,7 @@ class _BaseGridSet:
                     columnspan = colSpan,
                 )
                 self.wdgSet.append(wdg)
-            if wdg != False:
+            if wdg is not False:
                 self.nextCol += colSpan
 
     def _makeWdg(self, wdgInfo):
@@ -402,15 +404,15 @@ class _BaseGridSet:
 
     def _setHelpFromDataWdg(self, dataWdg):
         """Sets self.helpText and self.helpURL from first dataWdg, if requested and available
-        (if helpText or helpURL == True)
+        (if helpText or helpURL is True)
         """
         if True not in (self.helpText, self.helpURL):
             return
 
         firstWdg = RO.SeqUtil.asSequence(dataWdg)[0]
-        if self.helpText == True:
+        if self.helpText is True:
             self.helpText = getattr(firstWdg, "helpText", None)
-        if self.helpURL == True:
+        if self.helpURL is True:
             self.helpURL = getattr(firstWdg, "helpURL", None)
     
     def __getitem__(self, ind):

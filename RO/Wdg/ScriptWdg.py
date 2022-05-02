@@ -29,6 +29,7 @@ History:
 2011-06-16 ROwen    Ditched obsolete "except (SystemExit, KeyboardInterrupt): raise" code
 2014-10-20 ROwen    Bug fix: ScriptFileWdg leaked from __future__ import print_function into loaded scripts
                     (I'm not sure how, but I removed that import in this module to fix it).
+2015-11-05 ROwen    Stop using dangerous bare "except:".
 """
 __all__ = ['BasicScriptWdg', 'ScriptModuleWdg', 'ScriptFileWdg']
 
@@ -39,6 +40,7 @@ import RO.AddCallback
 import RO.ScriptRunner
 from . import Button
 from . import StatusBar
+import importlib
 
 # compute _StateSevDict which contains
 # state:severity for non-normal severities
@@ -341,8 +343,8 @@ class _BaseUserScriptWdg(tkinter.Frame, BasicScriptWdg):
             self.scriptFrame.grid(row=self.scriptFrameRow, column=0, sticky="news")
             self._makeScriptRunner(self.scriptFrame, **srArgs)
             self.scriptStatusBar.setMsg("Reloaded", RO.Constants.sevNormal)
-        except:
-            self.scriptStatusBar.setMsg("Reload failed; see error log", RO.Constants.sevError)
+        except Exception as e:
+            self.scriptStatusBar.setMsg("Reload failed: %s" % (e,), RO.Constants.sevError)
             raise
             
     
@@ -428,7 +430,7 @@ class ScriptModuleWdg(_BaseUserScriptWdg):
         it may also contain HelpURL.
         """
         if not isFirst:
-            reload(self.module)
+            importlib.reload(self.module)
 
         scriptClass = getattr(self.module, "ScriptClass", None)
         if scriptClass:
@@ -516,7 +518,7 @@ class ScriptFileWdg(_BaseUserScriptWdg):
         """
 #       print "_getScriptFuncs(%s)" % isFirst
         scriptLocals = {"__file__": self.fullPath}
-        exec(compile(open(self.filename).read(), self.filename, 'exec'), scriptLocals)
+        exec(compile(open(self.filename, "rb").read(), self.filename, 'exec'), scriptLocals)
         
         retDict = {}
         helpURL = scriptLocals.get("HelpURL")

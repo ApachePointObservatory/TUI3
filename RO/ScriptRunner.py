@@ -84,6 +84,9 @@ History:
 2014-03-14 ROwen    Changed default abortCmdStr from None to "".
 2014-04-29 ROwen    Bug fix: pause followed by resume lost the value returned by whatever was being paused.
 2014-07-21 ROwen    Added waitPause and waitSec.
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
+2015-11-05 ROwen    Changed ==/!= True/False to is/is not True/False to modernize the code.
 """
 __all__ = ["ScriptError", "ScriptRunner"]
 
@@ -97,7 +100,6 @@ import RO.KeyVariable
 import RO.SeqUtil
 import RO.StringUtil
 from RO.Comm.Generic import Timer
-import collections
 
 # state constants
 Ready = 2
@@ -208,9 +210,9 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
                 raise ValueError("Cannot specify runFunc, initFunc or endFunc with scriptClass")
             if not hasattr(scriptClass, "run"):
                 raise ValueError("scriptClass=%r has no run method" % scriptClass)
-        elif runFunc == None:
+        elif runFunc is None:
             raise ValueError("Must specify runFunc or scriptClass")
-        elif not isinstance(runFunc, collections.Callable):
+        elif not callable(runFunc):
             raise ValueError("runFunc=%r not callable" % (runFunc,))
 
         self.runFunc = runFunc
@@ -377,7 +379,7 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
     def resumeUser(self):
         """Resume execution from waitUser
         """
-        if self._userWaitID == None:
+        if self._userWaitID is None:
             raise RuntimeError("Not in user wait mode")
             
         iterID = self._userWaitID
@@ -389,20 +391,29 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
         
         If already running, raises RuntimeError
         """
+        print("script runner start")
         if self.isExecuting():
+            print("script runner error")
+
             raise RuntimeError("already executing")
     
         if self._statusBar:
+            print("script runner statusBar sent msg ")
             self._statusBar.setMsg("")
         if self._cmdStatusBar:
+            print("script runner cmdbar sent msg ")
             self._cmdStatusBar.setMsg("")
         
+        print("init vars")
         self.initVars()
     
         self._iterID = [0]
         self._iterStack = []
+        print("script state running ")
         self._setState(Running)
+        print("script runner continue  " + str(self._iterID))
         self._continue(self._iterID)
+        print("ending in the start here")
     
     # methods for use in scripts
     # with few exceptions all wait for something
@@ -438,7 +449,7 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
 
         currVal, isCurrent = keyVar.get()
         if isCurrent:
-            if ind != None:
+            if ind is not None:
                 retVal = currVal[ind]
             else:
                 retVal = currVal
@@ -497,6 +508,8 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
             abortCmdStr = abortCmdStr,
             keyVars = keyVars,
         )
+
+        print("we started a command")
         if checkFail:
             cmdVar.addCallback(
                 callFunc = self._cmdFailCallback,
@@ -506,15 +519,15 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
             argList = ["actor=%r, cmdStr=%r" % (actor, cmdStr)]
             if timeLim != 0:
                 argList.append("timeLim=%s" % (timeLim,))
-            if callFunc != None:
+            if callFunc is not None:
                 argList.append("callFunc=%r" % (callFunc,))
             if callTypes != RO.KeyVariable.DoneTypes:
                 argList.append("callTypes=%r" % (callTypes,))
-            if timeLimKeyword != None:
+            if timeLimKeyword is not None:
                 argList.append("timeLimKeyword=%r" % (timeLimKeyword,))
             if abortCmdStr:
                 argList.append("abortCmdStr=%r" % (abortCmdStr,))
-            if checkFail != True:
+            if checkFail is not True:
                 argList.append("checkFail=%r" % (checkFail,))
             self.debugPrint("startCmd(%s)" % (", ".join(argList),))
 
@@ -553,6 +566,8 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
         keyVars = None,
         checkFail = True,
     ):
+
+        print("it is a wait command")
         """Start a command and wait for it to finish.
         Returns the cmdVar in sr.value.
 
@@ -715,7 +730,7 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
         """
         self._waitCheck(setWait=True)
 
-        if self._userWaitID != None:
+        if self._userWaitID is not None:
             raise RuntimeError("Already in user wait mode")
             
         self._userWaitID = self._getNextID()
@@ -751,6 +766,7 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
         - iterID: ID of iterator that is continuing
         - val: self.value is set to val
         """
+        print("in continue val: " + str(val))
         self._printState("_continue(%r, %r)" % (iterID, val))
         if not self.isExecuting():
             raise RuntimeError('%s: bug! _continue called but script not executing' % (self,))
@@ -771,9 +787,12 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
             if not self._iterStack:
                 # just started; call run function,
                 # and if it's an iterator, put it on the stack
+                print("about to call run func")
                 res = self.runFunc(self)
+                print("called run func " + str(res))
                 if not hasattr(res, "next"):
                     # function was a function, not a generator; all done
+                    print("zomg all done")
                     self._setState(Done)
                     return
 
@@ -793,20 +812,26 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
             self._printState("_continue: after iteration")
 
         except StopIteration:
+            print("stop iteration")
 #           print "StopIteration seen in _continue"
             self._iterStack.pop(-1)
             if not self._iterStack:
+                print("stop exception")
                 self._setState(Done)
             else:
                 self._continue(self._iterID, val=self.value)
         except KeyboardInterrupt:
+            print("keyboard interrupt")
             self._setState(Cancelled, "keyboard interrupt")
         except SystemExit:
+            print("system exit")
             self.__del__()
             sys.exit(0)
         except ScriptError as e:
+            print("script error")
             self._setState(Failed, RO.StringUtil.strFromException(e))
         except Exception as e:
+            print("exception")
             traceback.print_exc(file=sys.stderr)
             self._printFullState()
             self._setState(Failed, RO.StringUtil.strFromException(e))
@@ -891,6 +916,8 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
         then any existing cancel function is called
         to abort outstanding callbacks.
         """
+        
+        print("set state " + str(newState) + "reason: " + str(reason))
         self._printState("_setState(%r, %r)" % (newState, reason))
         if self.debug:
             newStateName = _StateDict.get(newState, "?")
@@ -906,10 +933,13 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
                     func()
             self._cancelFuncs = []
             self._end()
-            
+        print("really setting state to: " + str(newState))    
         self._state = newState
-        if reason != None:
+        if reason is not None:
             self._reason = reason
+
+        print("Do call backs")
+          
         self._doCallbacks()
     
     def __str__(self):
@@ -975,7 +1005,7 @@ class _WaitBase(object):
             self.scriptRunner._cancelFuncs.remove(self.cancelWait)
         except ValueError:
             raise RuntimeError("Cancel function missing; did you forgot the 'yield' when calling a ScriptRunner method?")
-        if self.scriptRunner.debug and val != None:
+        if self.scriptRunner.debug and val is not None:
             print("wait returns %r" % (val,))
         self.scriptRunner._continue(self._iterID, val)
 
@@ -1151,7 +1181,7 @@ class _WaitKeyVar(_WaitBase):
         Ignores defVal.
         """
         currVal, isCurrent = self.keyVar.get()
-        if self.ind != None:
+        if self.ind is not None:
             return currVal[self.ind], isCurrent
         else:
             return currVal, isCurrent
@@ -1163,7 +1193,7 @@ class _WaitThread(_WaitBase):
         self._pollTimer = Timer()
         _WaitBase.__init__(self, scriptRunner)
         
-        if not isinstance(func, collections.Callable):
+        if not callable(func):
             raise ValueError("%r is not callable" % func)
 
         self.queue = queue.Queue()

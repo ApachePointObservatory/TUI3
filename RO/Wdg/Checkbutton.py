@@ -67,6 +67,8 @@ History:
                     Now it is applied by overridden method configure.
 2012-11-30 ROwen    Does no width correction if bitmap is shown.
 2014-03-18 ROwen    Stop adding padding for indicatoron=False; it is not needed for Tcl/Tk 8.5.18.
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
 """
 __all__ = ['Checkbutton']
 
@@ -85,7 +87,7 @@ class Checkbutton (tkinter.Checkbutton, RO.AddCallback.TkVarMixin,
     
     Inputs:
     - var       a Tkinter variable; this is updated when Checkbutton state changes
-                (and also during initialization if defValue != None)
+                (and also during initialization if defValue is not None)
     - defValue  the default state: either a string (which must match on or off value)
                 or a bool (selected if True, unselected if False)
                 or None (default), meaning use var if supplied, else False.
@@ -147,13 +149,13 @@ class Checkbutton (tkinter.Checkbutton, RO.AddCallback.TkVarMixin,
         severity = RO.Constants.sevNormal,
     **kargs):
         self._defBool = False # just create the field for now
-        if var == None:
+        if var is None:
             var = tkinter.StringVar()
-        elif defValue == None:
+        elif defValue is None:
             defValue = var.get()
         self._var = var
         self._defIfDisabled = bool(defIfDisabled)
-        if trackDefault == None:
+        if trackDefault is None:
             trackDefault = bool(autoIsCurrent)
         self._trackDefault = trackDefault
         self.helpText = helpText
@@ -307,7 +309,7 @@ class Checkbutton (tkinter.Checkbutton, RO.AddCallback.TkVarMixin,
         else:
             self.deselect()
         self.setIsCurrent(isCurrent)
-        if severity != None:
+        if severity is not None:
             self.setSeverity(severity)
 
     def setDefault(self,
@@ -329,7 +331,7 @@ class Checkbutton (tkinter.Checkbutton, RO.AddCallback.TkVarMixin,
         """
         restoreDef = self._trackDefault and self.isDefault()
         self._defBool = self.asBool(newDefValue)
-        if isCurrent != None:
+        if isCurrent is not None:
             self._isCurrent = isCurrent
         
         # if disabled and defIfDisabled, update display (which also triggers a callback)

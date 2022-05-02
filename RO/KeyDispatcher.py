@@ -85,6 +85,9 @@ History:
 2012-07-18 ROwen    Removed tkWdg argument from constructor.
                     Modified to use RO.Comm.Generic.Timer.
 2012-08-01 ROwen    Updated for RO.Comm.TCPConnection 3.0.
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
+2015-11-05 ROwen    Stop using dangerous bare "except:".
 """
 __all__ = ["logToStdOut", "KeyDispatcher"]
 
@@ -175,10 +178,10 @@ class KeyDispatcher(object):
         Issue the command specified by cmdVar.abortCmdStr, if present.
         Report the command as failed.
         
-        Has no effect if the command was never dispatched (cmdID == None)
+        Has no effect if the command was never dispatched (cmdID is None)
         or has already finished.
         """
-        if cmdID == None:
+        if cmdID is None:
             return
 
         cmdVar = self.cmdDict.get(cmdID)
@@ -282,7 +285,7 @@ class KeyDispatcher(object):
             for keyVar in keyVarList:
                 try:
                     keyVar.set(valueTuple, msgDict = msgDict)
-                except:
+                except Exception:
                     traceback.print_exc(file=sys.stderr)
 
         # if you are the commander for this message,
@@ -290,7 +293,7 @@ class KeyDispatcher(object):
         if cmdr == self.connection.cmdr:
             # get the command for this command id, if any
             cmdVar = self.cmdDict.get(cmdID, None)
-            if cmdVar != None:
+            if cmdVar is not None:
                 # send reply but don't log (that's already been done)
                 self._replyCmdVar(cmdVar, msgDict, doLog=False)
                     
@@ -440,9 +443,9 @@ class KeyDispatcher(object):
         """Generate a hub message based on the supplied data.
         Useful for reporting internal errors.
         """
-        if cmdr == None:
+        if cmdr is None:
             cmdr = self.connection.cmdr
-        if actor == None:
+        if actor is None:
             actor = self.name
 
         headerStr = "%s %d %s %s" % (
@@ -578,7 +581,7 @@ class KeyDispatcher(object):
                 # (thereby giving other time to other events)
                 # continuing where I left off
                 self._checkRemCmdTimer.start(_ShortInterval, self._checkRemCmdTimeouts, cmdVarIter)
-        except:
+        except Exception:
             sys.stderr.write ("RO.KeyDispatcher._checkRemCmdTimeouts failed\n")
             traceback.print_exc(file=sys.stderr)
 
@@ -637,7 +640,7 @@ class KeyDispatcher(object):
         if doLog:
             self.logMsgDict(msgDict)
         cmdVar.reply(msgDict)
-        if cmdVar.isDone() and cmdVar.cmdID != None:
+        if cmdVar.isDone() and cmdVar.cmdID is not None:
             try:
                 del (self.cmdDict[cmdVar.cmdID])
             except KeyError:
@@ -658,7 +661,7 @@ class KeyDispatcher(object):
         if not self._isConnected:
             return
 
-        if refreshCmdItemIter == None:
+        if refreshCmdItemIter is None:
             self._updateRefreshCmds()
             refreshCmdItemIter = iter(self.refreshCmdDict.items())
 
@@ -676,7 +679,7 @@ class KeyDispatcher(object):
                 isRefresh = True,
             )
             self.executeCmd(cmdVar)
-        except:
+        except Exception:
             sys.stderr.write("%s._sendNextRefreshCmd: refresh command %s failed:\n" % (self.__class__.__name__, cmdVar,))
             traceback.print_exc(file=sys.stderr)
         self._refreshNextTimer.start(_ShortInterval, self._sendNextRefreshCmd, refreshCmdItemIter)

@@ -157,6 +157,9 @@ History:
 2014-05-07 ROwen    Changed is str test to use basestring.
 2014-07-21 ROwen    Disabling the widget now makes the widget lose focus, which is what users expect
                     and saves unsaved edits.
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
+2015-11-05 ROwen    Stop using dangerous bare "except:".
 """
 __all__ = ['StrEntry', 'ASCIIEntry', 'FloatEntry', 'IntEntry', 'DMSEntry']
 
@@ -265,7 +268,7 @@ class _BaseEntry (tkinter.Entry, RO.AddCallback.BaseMixin,
         severity = RO.Constants.sevNormal,
     **kargs):
         self.defValueStr = "" # just create the field for now
-        if var == None:
+        if var is None:
             var = tkinter.StringVar()   
         self.var = var
         self.label = label
@@ -274,7 +277,7 @@ class _BaseEntry (tkinter.Entry, RO.AddCallback.BaseMixin,
         self._clearMenuName = clearMenu
         self._defMenuName = defMenu
         self._autoSetDefault = bool(autoSetDefault)
-        if trackDefault == None:
+        if trackDefault is None:
             trackDefault = bool(autoIsCurrent) and not autoSetDefault
         if (trackDefault and autoSetDefault):
             raise RuntimeError("Cannot set both trackDefault and autoSetDefault True")
@@ -352,7 +355,7 @@ class _BaseEntry (tkinter.Entry, RO.AddCallback.BaseMixin,
         but doesn't do much in the base class.
         If val is "" or None, returns "".
         """
-        if val == None:
+        if val is None:
             return ""
         return RO.CnvUtil.asStr(val)
 
@@ -362,7 +365,7 @@ class _BaseEntry (tkinter.Entry, RO.AddCallback.BaseMixin,
     def _ctxAddSetItem(self, menu, descr, value):
         """Add a set value item to the contextual menu.
         """
-        if descr and value != None:
+        if descr and value is not None:
             menuText = "%s (%s)" % (descr, value)
             def setValue():
                 self.set(value)
@@ -568,10 +571,10 @@ class _BaseEntry (tkinter.Entry, RO.AddCallback.BaseMixin,
         - Raises ValueError and leaves the widget unchanged
           if newVal is invalid (including out of range for numeric entry widgets).
         """
-        if newVal != None:
+        if newVal is not None:
             self.checkValue(newVal)
         self.setIsCurrent(isCurrent)
-        if severity != None:
+        if severity is not None:
             self.setSeverity(severity)
         
         if self._inMethodCall:
@@ -606,7 +609,7 @@ class _BaseEntry (tkinter.Entry, RO.AddCallback.BaseMixin,
         restoreDef = (self._trackDefault and self.isDefault()) \
             or (self._defIfBlank and self.var.get() == "")
         self.defValueStr = self.asStr(newDefValue)
-        if isCurrent != None:
+        if isCurrent is not None:
             self.setIsCurrent(isCurrent)
 
         if restoreDef:
@@ -761,7 +764,7 @@ class StrEntry (_BaseEntry):
         finalPattern = None,
     **kargs):
         self.partialPatternStr = partialPattern
-        if finalPattern == None:
+        if finalPattern is None:
             finalPattern = partialPattern
         self.finalPatternStr = finalPattern
 
@@ -821,7 +824,7 @@ class ASCIIEntry (StrEntry):
         """Return any valid value as an ASCII string;
         raise UnicodeDecodeError otherwise.
         """
-        if val == None:
+        if val is None:
             return ""
         return RO.CnvUtil.asASCII(val)
 
@@ -920,11 +923,11 @@ class _NumEntry (_BaseEntry):
     
     def getDefaultWidth(self):
         """Return the default width"""
-        if self.minNum != None:
+        if self.minNum is not None:
             widthForMin = len(self.defFormat % (self.minNum,))
         else:
             widthForMin = 8
-        if self.maxNum != None:
+        if self.maxNum is not None:
             widthForMax = len(self.defFormat % (self.maxNum,))
         else:
             widthForMax = 8
@@ -948,14 +951,14 @@ class _NumEntry (_BaseEntry):
         If format is omitted, the default format is used.
         Performs no range checking.
         """
-        if numVal == None:
+        if numVal is None:
             return ""
 
-        if format == None:
+        if format is None:
             format = self.defFormat
         try:
             return format % (numVal,)
-        except:
+        except Exception:
             raise ValueError("%scannot format data %r with format %r" % \
                 (self._getErrorPrefix(), numVal, format))
 
@@ -1024,11 +1027,11 @@ class _NumEntry (_BaseEntry):
         self.minNum = minNum
         self.maxNum = maxNum
 
-        if minNum != None and minNum <= 0:
+        if minNum is not None and minNum <= 0:
             self.minPartialNum = minNum
         else:
             self.minPartialNum = None
-        if maxNum != None and maxNum >= 0:
+        if maxNum is not None and maxNum >= 0:
             self.maxPartialNum = maxNum
         else:
             self.maxPartialNum = None
@@ -1101,10 +1104,10 @@ class _NumEntry (_BaseEntry):
         # this catches a minus sign when first typed in
         # whereas the range check below needs a digit before it can act
         if RO.SeqUtil.isString(val):
-            if self.minNum != None and self.minNum >= 0 and "-" in val:
+            if self.minNum is not None and self.minNum >= 0 and "-" in val:
                 raise ValueError("%s- forbidden; min val = %s" % \
                     (errPrefix, self.minNum))
-            if self.maxNum != None and self.maxNum < 0 and "-" not in val:
+            if self.maxNum is not None and self.maxNum < 0 and "-" not in val:
                 raise ValueError("%s- required; max val = %s" % \
                     (errPrefix, self.maxNum))
         
@@ -1278,7 +1281,7 @@ class DMSEntry (_NumEntry):
         try:
             nFields, precision = format
             constrainedFormat = (max(0, int(nFields)), max(0, int(precision)))
-        except:
+        except Exception:
             raise ValueError("%sinvalid format %r; must be (nFields, precision)" % \
                 (self._getErrorPrefix(), format,))
         return constrainedFormat
@@ -1390,10 +1393,10 @@ class DMSEntry (_NumEntry):
 
         Performs no range checking.
         """
-        if numVal == None:
+        if numVal is None:
             return ""
 
-        if format == None:
+        if format is None:
             nFields, precision = self.defFormat
         else:
             nFields, precision = self._constrainFormat(format)

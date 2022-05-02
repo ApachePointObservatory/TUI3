@@ -54,6 +54,8 @@ History:
 2011-08-16 ROwen    Commented out two diagnostic print statements.
 2011-10-11 ROwen    Documented as deprecated.
 2012-07-09 ROwen    Modified to use RO.TkUtil.Timer.
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
 """
 __all__ = ["DropletRunner"]
 
@@ -92,7 +94,7 @@ class DropletRunner(object):
         self.tkRoot = tkinter.Tk()
         self._timer = Timer()
         
-        if title == None:
+        if title is None:
             title = os.path.splitext(os.path.basename(scriptPath))[0]
         self.tkRoot.title(title)
 
@@ -139,7 +141,7 @@ class DropletRunner(object):
     def _poll(self):
         """Poll for subprocess completion
         """
-        if self.subProc.returncode != None:
+        if self.subProc.returncode is not None:
             self._cleanup()
         else:
             self._timer(0.1, self._poll)
@@ -148,14 +150,14 @@ class DropletRunner(object):
         """Read and log data from script's stdout
         """
         self.logWdg.addOutput(self.subProc.stdout.read())
-        if self.subProc.poll() != None:
+        if self.subProc.poll() is not None:
             self._cleanup()
 
     def _readStdErr(self, *dumArgs):
         """Read and log data from script's stderr
         """
         self.logWdg.addOutput(self.subProc.stderr.read(), severity=RO.Constants.sevError)
-        if self.subProc.poll() != None:
+        if self.subProc.poll() is not None:
             self._cleanup()
 
     def _cleanup(self):

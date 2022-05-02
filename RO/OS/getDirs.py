@@ -75,6 +75,7 @@ History:
 2005-10-06 ROwen    Make sure unix getHomeDir can never return [None]
                     (which could happen on Windows with missing required modules).
 2006-02-28 ROwen    Bug fix: getHomeDir did not work on Windows.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
 """
 __all__ = ["PlatformName", "getAppDirs", "getAppSuppDirs", "getDocsDir", "getHomeDir",
     "getPrefsDirs", "getPrefsPrefix"]
@@ -87,16 +88,13 @@ try:
     # try Mac
     from .getMacDirs import getAppDirs, getAppSuppDirs, getDocsDir, getPrefsDirs
     PlatformName = 'mac'
-    print("GET MAC FAILED")
 except ImportError:
     # try Windows
     try:
         from .getWinDirs import getAppDirs, getAppSuppDirs, getDocsDir, getPrefsDirs
         PlatformName = 'win'
-        print("GET WIN FAILED")
     except ImportError:
         # assume Unix
-        print("IN LINUX")
         PlatformName = 'unix'
         def getAppDirs(inclNone = False):
             # use PATH to find apps on unix
@@ -116,7 +114,7 @@ except ImportError:
                 return [getHomeDir(), None]
             else:
                 homeDir = getHomeDir()
-                if homeDir != None:
+                if homeDir is not None:
                     return [homeDir]
             return []
 

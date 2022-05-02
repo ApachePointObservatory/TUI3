@@ -71,6 +71,8 @@ History:
 2012-06-04 ROwen    Reduce CPU usage by doing less work if not visible (not mapped).
 2012-07-09 ROwen    Modified to use RO.TkUtil.Timer.
 2012-09-18 ROwen    Explicitly import matplotlib.dates to avoid a problem with matplotlib 1.2.0rc1
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
 """
 __all__ = ["StripChartWdg"]
 
@@ -144,12 +146,12 @@ class StripChartWdg(tkinter.Frame):
         self._timeRange = timeRange
         self._isVisible = self.winfo_ismapped()
         self._isFirst = True
-        if updateInterval == None:
+        if updateInterval is None:
             updateInterval = max(0.1, min(5.0, timeRange / 2000.0))
         self.updateInterval = float(updateInterval)
 #         print "updateInterval=", self.updateInterval
 
-        if cnvTimeFunc == None:
+        if cnvTimeFunc is None:
             cnvTimeFunc = TimeConverter(useUTC=False)
         self._cnvTimeFunc = cnvTimeFunc
 
@@ -293,7 +295,7 @@ class StripChartWdg(tkinter.Frame):
         subplot = self.subplotArr[subplotInd]
         yMin, yMax = subplot.get_ylim()
         
-        if y1 != None:
+        if y1 is not None:
             yList = [y0, y1]
         else:
             yList = [y0]
@@ -394,9 +396,9 @@ class _Line(object):
         - y: y value; if None the point is silently ignored
         - t: time as a POSIX timestamp (e.g. time.time()); if None then "now"
         """
-        if y == None:
+        if y is None:
             return
-        if t == None:
+        if t is None:
             t = time.time()
         mplDays = self._cnvTimeFunc(t)
 

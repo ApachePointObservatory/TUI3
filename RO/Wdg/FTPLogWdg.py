@@ -47,6 +47,8 @@ History:
 2011-06-16 ROwen    Ditched obsolete "except (SystemExit, KeyboardInterrupt): raise" code
 2012-07-09 ROwen    Modified to use RO.TkUtil.Timer.
 2012-08-01 ROwen    Updated for changes to FTPGet.
+2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
+2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
 """
 __all__ = ['FTPLogWdg']
 
@@ -75,7 +77,7 @@ class FTPCallback(object):
         self.ftpGet = ftpGet
     
     def __call__(self):
-        if self.ftpGet == None:
+        if self.ftpGet is None:
             return
         
         if self.callFunc:
@@ -293,7 +295,7 @@ class FTPLogWdg(tkinter.Frame):
         if doAutoSelect:
             self._selectInd(-1)
             self.text.see("end")
-        elif selInd != None:
+        elif selInd is not None:
             self._selectInd(selInd)
         
         #print "dispList=", self.dispList
@@ -329,7 +331,7 @@ class FTPLogWdg(tkinter.Frame):
     def _selectInd(self, ind):
         """Display details for the ftpGet at self.dispList[ind]
         and selects the associated line in the displayed list.
-        If ind == None then displays no info and deselects all.
+        If ind is None then displays no info and deselects all.
         """
         self.text.tag_remove('sel', '1.0', 'end')
         try:
