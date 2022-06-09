@@ -151,7 +151,7 @@ class StatusConfigWdg (tkinter.Frame):
             dispatcher = tuiModel.dispatcher,
             runFunc = self._runConfig,
             statusBar = self.statusBar,
-            stateFunc = self.enableButtons,
+            stateFunc = self.enableButtons, 
         )
 
         self.inputWdg.addCallback(self.enableButtons)
@@ -159,6 +159,8 @@ class StatusConfigWdg (tkinter.Frame):
     def doApply(self, btn=None):
         """Apply desired configuration changes.
         """
+        print("DoApply runfunc")
+        print(self.scriptRunner.runFunc)
         self.scriptRunner.start()
 
     def doCancel(self, btn=None):
@@ -181,12 +183,16 @@ class StatusConfigWdg (tkinter.Frame):
         Execute each command string in self.inputWdg.getStringList(). Wait for each command
         to finish before starting the next and halt if any command fails.
         """
+        print("RUNNING CONFIG")
         cmdList = self.inputWdg.getStringList()
+        print("command list: " + str(cmdList))
         for cmdStr in cmdList:
+            print("waitCMD");
             yield sr.waitCmd(
                 actor = self.getActorForCommand(cmdStr),
                 cmdStr = cmdStr,
             )
+            print("waitCMD after");
 
     def enableButtons(self, *args, **kargs):
         """Enable or disable command buttons as appropriate.

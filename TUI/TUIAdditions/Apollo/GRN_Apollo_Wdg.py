@@ -5213,7 +5213,7 @@ class NoteBook(Pmw.NoteBook):
                         return
 
                 self.cmdText = cmdTextData[0]
-                print('newCmdText():    cmdText = ', self.cmdText)
+                print('newCmdText():    hecmdText = ', self.cmdText)
                 
                 checkID = self.cmdr[0:4]
                 #print '    checkID = ', checkID

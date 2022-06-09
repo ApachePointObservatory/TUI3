@@ -568,6 +568,7 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
     ):
 
         print("it is a wait command")
+        
         """Start a command and wait for it to finish.
         Returns the cmdVar in sr.value.
 
@@ -710,7 +711,7 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
     def waitThread(self, func, *args, **kargs):
         """Run func as a background thread, waits for completion
         and sets self.value = the result of that function call.
-
+        
         A yield is required.
         
         Warning: func must NOT interact with Tkinter widgets or variables
@@ -718,6 +719,7 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
         (The only thing I'm sure a background thread can safely do with Tkinter
         is generate an event, a technique that is used to detect end of thread).
         """
+        print("WAIT THREAD ")
         self.debugPrint("waitThread(func=%r, args=%s, keyArgs=%s)" % (func, args, kargs))
 
         _WaitThread(self, func, *args, **kargs)
@@ -893,6 +895,7 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
             except SystemExit:
                 raise
             except Exception as e:
+                print("end exception")
                 self._state = Failed
                 self._reason = "endFunc failed: %s" % (RO.StringUtil.strFromException(e),)
                 traceback.print_exc(file=sys.stderr)
@@ -1005,6 +1008,9 @@ class _WaitBase(object):
             self.scriptRunner._cancelFuncs.remove(self.cancelWait)
         except ValueError:
             raise RuntimeError("Cancel function missing; did you forgot the 'yield' when calling a ScriptRunner method?")
+        except Exception as e:
+            print("end exception" + str(e))
+            
         if self.scriptRunner.debug and val is not None:
             print("wait returns %r" % (val,))
         self.scriptRunner._continue(self._iterID, val)
@@ -1035,6 +1041,7 @@ class _WaitCmdVars(_WaitBase):
         self.checkFail = bool(checkFail)
         self.retVal = retVal
         self.addedCallback = False
+        print("waitcommand vars_")
         _WaitBase.__init__(self, scriptRunner)
 
         if self.getState()[0] != 0:
@@ -1102,6 +1109,7 @@ class _WaitCmdVars(_WaitBase):
         msgDict = cmdVar.lastReply
         msgType = msgDict["msgType"]
         self.scriptRunner._cmdFailCallback(msgType, msgDict, cmdVar)
+        print("failed in script runner")
 
 
 class _WaitKeyVar(_WaitBase):
@@ -1190,6 +1198,7 @@ class _WaitKeyVar(_WaitBase):
 class _WaitThread(_WaitBase):
     def __init__(self, scriptRunner, func, *args, **kargs):
 #       print "_WaitThread.__init__(%r, *%r, **%r)" % (func, args, kargs)
+        print("INITED WAIT THREAD")
         self._pollTimer = Timer()
         _WaitBase.__init__(self, scriptRunner)
         
@@ -1203,26 +1212,37 @@ class _WaitThread(_WaitBase):
         self.threadObj.setDaemon(True)
         self.threadObj.start()
         self._pollTimer.start(_PollDelaySec, self.checkEnd)
+        print("wait thread end init")
+
 #       print "_WaitThread__init__(%r) done" % self.func
     
     def checkEnd(self):
+        
         if self.threadObj.isAlive():
             self._pollTimer.start(_PollDelaySec, self.checkEnd)
             return
 #       print "_WaitThread(%r).checkEnd: thread done" % self.func
+        print("CHECKEND WAIT THREAD")
+
         
         retVal = self.queue.get()
 #       print "_WaitThread(%r).checkEnd; retVal=%r" % (self.func, retVal)
         self._continue(val=retVal)
+        print("checkEnd after continue")
+        
         
     def cleanup(self):
 #       print "_WaitThread(%r).cleanup" % self.func
         self._pollTimer.cancel()
         self.threadObj = None
+        print("cleanup")
+        
 
     def threadFunc(self, *args, **kargs):
         retVal = self.func(*args, **kargs)
         self.queue.put(retVal)
+        print("thread func")
+        
 
 
 if __name__ == "__main__":

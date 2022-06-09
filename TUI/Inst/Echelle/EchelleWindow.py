@@ -40,6 +40,7 @@ def addWindow(tlSet):
 
 class StatusConfigWdg(TUI.Inst.StatusConfigWdg.StatusConfigWdg):
     def __init__(self, master):
+        print("ECHELLE!!")
         TUI.Inst.StatusConfigWdg.StatusConfigWdg.__init__(self,
             master = master,
             statusConfigInputClass = StatusConfigInputWdg.StatusConfigInputWdg,
