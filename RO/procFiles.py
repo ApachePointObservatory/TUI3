@@ -209,7 +209,8 @@ def procFiles (
             if outPath is None:
                 return
 
-            sys.stdout = file(outPath, 'w')
+            #sys.stdout = file(outPath, 'w')
+            sys.stdout = open(outPath, 'w')
         except ImportError:
             # unknown platform; use standard prompt
             outFile = input(
@@ -218,12 +219,14 @@ def procFiles (
             # generate outPath, and if it's a file, open it and redirect stdout
             if outFile:
                 outPath = os.path.join(outDir, outFile)
-                sys.stdout = file(outPath, 'w')
+                #sys.stdout = file(outPath, 'w')
+                sys.stdout = open(outPath, 'w')
             else:
                 outPath = outDir
     elif outFile:
         outPath = os.path.join(outDir, outFile)
-        sys.stdout = file(outPath, 'w')
+        #sys.stdout = file(outPath, 'w')
+        sys.stdout = open(outPath, 'w')
     else:
         outPath = outDir
     

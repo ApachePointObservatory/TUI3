@@ -32,7 +32,8 @@ modNames = list(TUI.WindowModuleUtil.findWindowsModules(
     loadFirst="TUIMenu",
 ))
 modFilePath = os.path.join(tuiPath, "LoadStdModules.py")
-modFile = file(modFilePath, "w")
+#modFile = file(modFilePath, "w")
+modFile = open(modFilePath, 'w')
 try:
     modFile.write("import TUI.TUIModel\n")
     for modName in modNames:

@@ -103,6 +103,7 @@ import RO.OS
 import RO.StringUtil
 import RO.Wdg
 
+
 class PrefVar(object):
     """Base class for preference variables. Intended to be subclassed, not used directly.
 
@@ -1129,14 +1130,18 @@ class PrefSet(object):
         if not, it is ill-formed and the data is rejected with an error message).
         At that point the data is fed to the referenced preference variable.
         """
+        print("Trying to load prefs")
+        print(fileName)
         fileName = self.__getFileName(fileName)
-
+        print("Now: ")
+        print(fileName)
         if not os.path.isfile(fileName):
             sys.stderr.write("No preference file %r; using default values\n" % (fileName,))
             return
 
         try:
-            inFile = file(fileName, 'rU')
+            #inFile = file(fileName, 'rU')
+            inFile = open(fileName, 'rU')
         except Exception as e:
             sys.stderr.write("Could not open preference file %r; error: %s\n" % (fileName, e))
             return

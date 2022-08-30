@@ -104,7 +104,8 @@ class ScriptClass(object):
         if not fileName:
             raise sr.ScriptError("specify a calibration data file")
     
-        self.file = file(fileName, 'rU')
+        #self.file = file(fileName, 'rU')
+        self.file = open(fileName, 'rU')
         if not self.file:
             raise sr.ScriptError("could not open %r" % fileName)
         

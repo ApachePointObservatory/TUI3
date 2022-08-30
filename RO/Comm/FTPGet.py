@@ -274,7 +274,8 @@ class FTPGet:
                 mode = "wb"
             else:
                 mode = "w"
-            self._toFile = file(self.toPath, mode)
+            #self._toFile = file(self.toPath, mode)
+            self._toFile = open(self.toPath, mode)
 
             # open input socket
             if _Debug:

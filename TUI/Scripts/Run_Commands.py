@@ -108,7 +108,8 @@ class ScriptClass(object):
         # handle case of filePath being a weird Tcl object
         self.filePath = RO.CnvUtil.asStr(filePath)
         
-        fileObj = file(self.filePath, 'rU')
+        #fileObj = file(self.filePath, 'rU')
+        fileObj = open(self.filePath, 'rU')
         try:
             fileData = fileObj.read()
             if fileData[-1] != "\n":
@@ -131,7 +132,8 @@ class ScriptClass(object):
             return
         
         data = self.getData()
-        outFile = file(self.filePath, 'w')
+        #outFile = file(self.filePath, 'w')
+        outFile = open(self.filePath, 'w')
         try:
             outFile.write(data)
         finally:

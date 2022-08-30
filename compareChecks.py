@@ -41,7 +41,8 @@ def readAndStrip(fileName, doDebug=False):
     nMatchFail = 0
     nGood = 0
     goodDict = RO.Alg.ListDict()
-    with file(fileName, 'rU') as inF:
+    #with file(fileName, 'rU') as inF:
+    with open(fileName, 'rU') as inF:
         for line in inF:
             if line.startswith("/Library"):
                 nLib += 1
