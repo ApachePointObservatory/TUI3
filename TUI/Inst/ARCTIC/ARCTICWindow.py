@@ -42,6 +42,7 @@ class StatusConfigWdg(TUI.Inst.StatusConfigWdg.StatusConfigWdg):
 
     def _runConfig(self, sr):
         strList = self.inputWdg.getStringList()
+        print("IN RUN CONFIG")
         if not strList:
             return
         cmdStr = "set %s" % (" ".join(strList))
