@@ -40,7 +40,8 @@ def fileParseIter(fileName,startNum):
         global startFlag
         global nshots
         
-        fobj = file(fileName, "rU")
+        #fobj = file(fileName, "rU")
+        fobj = open(fileName, "rU")
         for line in fobj:
             
             if startNum != None:

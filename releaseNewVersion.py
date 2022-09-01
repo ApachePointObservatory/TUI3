@@ -32,7 +32,8 @@ if not getOK.lower().startswith("y"):
     sys.exit(0)
 
 versRegEx = re.compile(r"<h3>(\d.*\s\d\d\d\d-\d\d-\d\d)</h3>")
-with file(os.path.join("TUI", "Help", "VersionHistory.html")) as vhist:
+#with file(os.path.join("TUI", "Help", "VersionHistory.html")) as vhist:
+with open(os.path.join("TUI", "Help", "VersionHistory.html")) as vhist:
     for line in vhist:
         versMatch = versRegEx.match(line)
         if versMatch:
