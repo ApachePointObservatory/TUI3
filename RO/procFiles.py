@@ -160,7 +160,8 @@ def procFiles (
     recursionDepth = None,
 ):
     # make sure func is callable
-    if not callable(func):
+    #if not callable(func):
+    if not hasattr(func, '__call__'):
         raise RuntimeError("supplied function is not callable")
 
     # handle case of inPathList being a single string

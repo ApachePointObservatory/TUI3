@@ -142,7 +142,8 @@ class CtxMenu(object):
 
         Raise ValueError if configFunc not callable.
         """
-        if configFunc and not callable(configFunc):
+        #if configFunc and not callable(configFunc):
+        if configFunc and not hasattr(configFunc, '__call__'):
             raise ValueError("configFunc %r is not callable" % (configFunc,))
         self.__configMenuFunc = configFunc or self.ctxConfigMenu
     

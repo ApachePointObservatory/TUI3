@@ -86,6 +86,7 @@ class SeverityMixin(object):
         Called automatically. Do NOT call manually.
         """
         color = self._severityPrefDict[self._severity].getValue()
+        print("updating severity color")
         self.configure(foreground = color)
 
 

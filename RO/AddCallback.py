@@ -144,7 +144,8 @@ class BaseMixin(object):
         if callFunc is None:
             return
 
-        if not callable(callFunc):
+        #if not callable(callFunc):
+        if not hasattr(callFunc, '__call__'):
             raise ValueError("callFunc %r is not callable" % (callFunc,))
         
         # add new function
@@ -265,7 +266,8 @@ class TkButtonMixin(BaseMixin):
         )
 
         if command is not None:
-            if not callable(command):
+            #if not callable(command):
+            if not hasattr(command, '__call__'):
                 raise ValueError("command %r is not callable" % (command,))
             def doCommand(wdg):
                 return command()

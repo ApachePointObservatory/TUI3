@@ -212,7 +212,8 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
                 raise ValueError("scriptClass=%r has no run method" % scriptClass)
         elif runFunc is None:
             raise ValueError("Must specify runFunc or scriptClass")
-        elif not callable(runFunc):
+        #elif not callable(runFunc):
+        elif not hasattr(runFunc, '__call__'):
             raise ValueError("runFunc=%r not callable" % (runFunc,))
 
         self.runFunc = runFunc
@@ -1202,7 +1203,8 @@ class _WaitThread(_WaitBase):
         self._pollTimer = Timer()
         _WaitBase.__init__(self, scriptRunner)
         
-        if not callable(func):
+        #if not callable(func):
+        if not hasattr(func, '__call__'):
             raise ValueError("%r is not callable" % func)
 
         self.queue = queue.Queue()

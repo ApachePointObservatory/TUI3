@@ -313,7 +313,8 @@ class WdgCont(RO.AddCallback.BaseMixin):
         if formatFunc is None:
             formatFunc = BasicFmt()
         self._formatFunc = formatFunc
-        if not callable(self._formatFunc):
+        #if not callable(self._formatFunc):
+        if not  hasattr(self._formatFunc, '__call__'):
             raise ValueError('format function %r is not callable' % (self._formatFunc,))
 
         if callFunc:

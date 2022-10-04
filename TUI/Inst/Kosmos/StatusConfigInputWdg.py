@@ -618,13 +618,15 @@ class StatusConfigInputWdg (RO.Wdg.InputContFrame):
         """Show current filter name, if stopped at a known position, else state
         """
         calstage, isCurrent = self.model.calstagePos.getInd(0)
-        self.calstageNameCurrWdg.set(calstage, severity=RO.Constants.sevNormal)
         if calstage is None:
             stagePos = "?"
         elif int(calstage) > 5000:
             stagePos = "in"
+            self.calstageNameCurrWdg.set(calstage, severity=RO.Constants.sevCritical)
         else:
             stagePos = "out"
+            self.calstageNameCurrWdg.set(calstage, severity=RO.Constants.sevNormal)
+
         self.calstageNameUserWdg.setDefault(stagePos, doCheck=False)
 
     def _updGfocusName(self, *args, **kargs):
@@ -681,7 +683,11 @@ class StatusConfigInputWdg (RO.Wdg.InputContFrame):
             neon = "?"
         else:
             neon = str(neon)
-        self.neonCurrWdg.set(neon, severity=RO.Constants.sevNormal)
+
+        if neon.__eq__("off"):
+            self.neonCurrWdg.set(neon, severity=RO.Constants.sevNormal)
+        elif neon.__eq__("on"):
+            self.neonCurrWdg.set(neon, severity=RO.Constants.sevCritical)
         self.neonUserWdg.setDefault(neon, doCheck=False)
 
     def _updKryptonName(self, *args, **kargs):
@@ -692,7 +698,12 @@ class StatusConfigInputWdg (RO.Wdg.InputContFrame):
             krypton = "?"
         else:
             krypton = str(krypton)
-        self.kryptonCurrWdg.set(krypton, severity=RO.Constants.sevNormal)
+
+        if krypton.__eq__("off"):
+            self.kryptonCurrWdg.set(krypton, severity=RO.Constants.sevNormal)
+        elif krypton.__eq__("on"):
+            self.kryptonCurrWdg.set(krypton, severity=RO.Constants.sevCritical)
+
         self.kryptonUserWdg.setDefault(krypton, doCheck=False)
 
     def _updQuartzName(self, *args, **kargs):
@@ -703,7 +714,12 @@ class StatusConfigInputWdg (RO.Wdg.InputContFrame):
             quartz = "?"
         else:
             quartz = str(quartz)
-        self.quartzCurrWdg.set(quartz, severity=RO.Constants.sevNormal)
+
+        if quartz.__eq__("off"):            
+            self.quartzCurrWdg.set(quartz, severity=RO.Constants.sevNormal)
+        elif quartz.__eq__("on"):
+            self.quartzCurrWdg.set(quartz, severity=RO.Constants.sevCritical)
+
         self.quartzUserWdg.setDefault(quartz, doCheck=False)
 
 
@@ -715,6 +731,11 @@ class StatusConfigInputWdg (RO.Wdg.InputContFrame):
             argon = "?"
         else:
             argon = str(argon)
+        
+        if argon.__eq__("off"):
+            self.argonCurrWdg.set(argon, severity=RO.Constants.sevNormal)
+        elif argon.__eq__("on"):
+            self.argonCurrWdg.set(argon, severity=RO.Constants.sevCritical)      
         self.argonCurrWdg.set(argon, severity=RO.Constants.sevNormal)
         self.argonUserWdg.setDefault(argon, doCheck=False)
 
