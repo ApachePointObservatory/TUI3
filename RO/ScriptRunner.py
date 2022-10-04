@@ -261,7 +261,8 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
             self.endFunc = getattr(self.scriptObj, "end", None)
         elif self.initFunc:
             res = self.initFunc(self)
-            if hasattr(res, "next"):
+            #if hasattr(res, "next"):
+            if hasattr(res, "__next__"):
                 raise RuntimeError("init function tried to wait")
         
         if startNow:
@@ -790,10 +791,11 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
             if not self._iterStack:
                 # just started; call run function,
                 # and if it's an iterator, put it on the stack
-                print("about to call run func")
+                print("about to call run func: " + str(self.runFunc) + " type: " + str(type(self.runFunc)))
                 res = self.runFunc(self)
-                print("called run func " + str(res))
-                if not hasattr(res, "next"):
+                print("called run func with result res " + str(res))
+                #if not hasattr(res, "next"):
+                if not hasattr(res, "__next__"):
                     # function was a function, not a generator; all done
                     print("zomg all done")
                     self._setState(Done)
@@ -804,7 +806,8 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
             self._printState("_continue: before iteration")
             self._state = 0
             possIter = next(self._iterStack[-1])
-            if hasattr(possIter, "next"):
+            #if hasattr(possIter, "next"):
+            if hasattr(possIter, "__next__"):
                 self._iterStack.append(possIter)
                 self._iterID = self._getNextID(addLevel = True)
 #               print "Iteration yielded an iterator"
@@ -887,7 +890,8 @@ class ScriptRunner(RO.AddCallback.BaseMixin):
             self.debugPrint("ScriptRunner._end: calling end function")
             try:
                 res = self.endFunc(self)
-                if hasattr(res, "next"):
+                #if hasattr(res, "next"):
+                if hasattr(res, "__next__"):
                     self._state = Failed
                     self._reason = "endFunc tried to wait"
             except KeyboardInterrupt:

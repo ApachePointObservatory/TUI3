@@ -46,7 +46,6 @@ class StatusConfigWdg(TUI.Inst.StatusConfigWdg.StatusConfigWdg):
             statusConfigInputClass = StatusConfigInputWdg.StatusConfigInputWdg,
         )
 
-
 if __name__ == "__main__":
     from . import TestData
 
