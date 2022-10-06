@@ -37,6 +37,7 @@ def axisSlew():
     _playSound("Axis Slew")
 
 def axisTrack():
+    print("PLAYING SOUND")
     _playSound("Axis Track")
 
 def cmdDone():

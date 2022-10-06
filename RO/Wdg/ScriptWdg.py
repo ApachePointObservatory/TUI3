@@ -283,19 +283,19 @@ class _BaseUserScriptWdg(tkinter.Frame, BasicScriptWdg):
         row += 1
         
         buttonFrame = tkinter.Frame(self)
-        startButton = Button.Button(
+        startButton = Button(
             master = buttonFrame,
             text = "Start",
             helpText = "Start the script",
             helpURL = helpURL,
         )
         startButton.pack(side="left")
-        pauseButton = Button.Button(
+        pauseButton = Button(
             master = buttonFrame,
             helpURL = helpURL,
         )
         pauseButton.pack(side="left")
-        cancelButton = Button.Button(
+        cancelButton = Button(
             master = buttonFrame,
             text = "Cancel",
             helpText = "Halt the script",
