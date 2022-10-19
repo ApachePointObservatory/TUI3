@@ -12,7 +12,7 @@ import collections
 import json
 import os.path
 
-class SavedDict(collections.abcMutableMapping):
+class SavedDict(collections.abc.MutableMapping):
     """A dictionary that is automatically read from and written to a file
 
     The data is saved to the file for every update, so this is intended only for
