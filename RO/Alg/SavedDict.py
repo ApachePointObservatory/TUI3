@@ -12,7 +12,7 @@ import collections
 import json
 import os.path
 
-class SavedDict(collections.MutableMapping):
+class SavedDict(collections.abcMutableMapping):
     """A dictionary that is automatically read from and written to a file
 
     The data is saved to the file for every update, so this is intended only for
@@ -24,7 +24,7 @@ class SavedDict(collections.MutableMapping):
         Inputs:
         - filePath: default file path
         """
-        collections.MutableMapping.__init__(self)
+        collections.abc.MutableMapping.__init__(self)
         self._filePath = filePath
         self._data = dict()
         if os.path.isfile(filePath):
