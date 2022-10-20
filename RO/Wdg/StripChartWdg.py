@@ -84,6 +84,7 @@ import numpy
 import tkinter
 import matplotlib
 import matplotlib.dates
+import matplotlib.figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from RO.TkUtil import Timer
 

@@ -166,7 +166,7 @@ class TCPConnection(object):
           - the socket (a TCPSocket object)
           - the data read; in line mode the line terminator is stripped
         """
-        assert isinstance(readCallback, collections.Callable), "read callback not callable"
+        assert isinstance(readCallback, collections.abc.Callable), "read callback not callable"
         self._userReadCallbacks.append(readCallback)
     
     def addStateCallback(self, stateCallback, callNow=False):
@@ -176,7 +176,7 @@ class TCPConnection(object):
         - stateCallback: the function; it is sent one argument: this TCPConnection
         - callNow: call the connection function immediately?
         """
-        assert isinstance(stateCallback, collections.Callable)
+        assert isinstance(stateCallback, collections.abc.Callable)
         self._stateCallbacks.append(stateCallback)
         if callNow:
             stateCallback(self)
