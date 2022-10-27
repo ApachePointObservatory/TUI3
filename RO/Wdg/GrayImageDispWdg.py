@@ -309,7 +309,7 @@ class MaskInfo(object):
     
     def setColor(self, color):
         """Set the mask color"""
-        self.maskRGB = [val/256 for val in self.tkWdg.winfo_rgb(color)]
+        self.maskRGB = [val//256 for val in self.tkWdg.winfo_rgb(color)]
         self.color = color
 
 
