@@ -230,7 +230,7 @@ def _findUnixApp(appName):
             fullErrMsg = "'which %s' failed: %s" % (appName, errMsg)
             raise RuntimeError(fullErrMsg)
         appPath = p.stdout.read()
-        if not appPath.startswith("/"):
+        if not appPath.startswith(b"/"):
             raise RuntimeError("Could not find %s on your PATH" % (appName,))
     finally:
         p.stdout.close()
