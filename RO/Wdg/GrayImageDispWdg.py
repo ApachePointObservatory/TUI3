@@ -481,7 +481,7 @@ class GrayImageWdg(tkinter.Frame, RO.AddCallback.BaseMixin):
         self._dragLevelTimer = RO.TkUtil.Timer()
         
         # fields for drag-to-act
-        self.dragStart = None
+        self.dragStart = (None,)
         self.dragRectID = None
         
         # annotation dict;
@@ -976,7 +976,7 @@ class GrayImageWdg(tkinter.Frame, RO.AddCallback.BaseMixin):
         self._dragLevelTimer.start(0.2, self.dragLevelContinue, evt)
 
     def dragZoomContinue(self, evt):
-        if (self.dragStart == None).any():
+        if None in self.dragStart:
             return
 
         newPos = self.cnvPosFromEvt(evt)
@@ -989,11 +989,11 @@ class GrayImageWdg(tkinter.Frame, RO.AddCallback.BaseMixin):
         if isTemp:
             self.modeWdg.set(self.permMode)
 
-        if (self.dragStart == None).any():
+        if None in self.dragStart:
             return
         startPos = self.dragStart
         endPos = self.cnvPosFromEvt(evt)
-        self.dragStart = None
+        self.dragStart = (None,)
         
         if (self.dataArr == None).any():
             return
@@ -1235,7 +1235,7 @@ class GrayImageWdg(tkinter.Frame, RO.AddCallback.BaseMixin):
         2 shows each pixel 2x as large as it should be
         etc.
         """
-        if desCtrCnv != None:
+        if desCtrCnv is not None:
             desCtrIJ = self.arrIJFromImPos(self.imPosFromCnvPos(desCtrCnv), doCheck=False)
         else:
             desCtrIJ = None
