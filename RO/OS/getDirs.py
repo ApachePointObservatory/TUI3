@@ -81,42 +81,43 @@ __all__ = ["PlatformName", "getAppDirs", "getAppSuppDirs", "getDocsDir", "getHom
     "getPrefsDirs", "getPrefsPrefix"]
 
 import os
+import platform
 
 PlatformName = None
 
-try:
-    # try Mac
+platformSys = platform.system()
+if platformSys == 'Darwin':
     from .getMacDirs import getAppDirs, getAppSuppDirs, getDocsDir, getPrefsDirs
     PlatformName = 'mac'
-except ImportError:
-    # try Windows
-    try:
-        from .getWinDirs import getAppDirs, getAppSuppDirs, getDocsDir, getPrefsDirs
-        PlatformName = 'win'
-    except ImportError:
-        # assume Unix
-        PlatformName = 'unix'
-        def getAppDirs(inclNone = False):
-            # use PATH to find apps on unix
-            if inclNone:
-                return [None, None]
-            else:
-                return []
-                
-        def getAppSuppDirs(inclNone = False):
-            return getPrefsDirs(inclNone = inclNone)
-
-        def getDocsDir():
-            return getHomeDir()
-
-        def getPrefsDirs(inclNone = False):
-            if inclNone:
-                return [getHomeDir(), None]
-            else:
-                homeDir = getHomeDir()
-                if homeDir is not None:
-                    return [homeDir]
+elif platformSys == 'Linux':
+    PlatformName = 'unix'
+    def getAppDirs(inclNone = False):
+        # use PATH to find apps on unix
+        if inclNone:
+            return [None, None]
+        else:
             return []
+            
+    def getAppSuppDirs(inclNone = False):
+        return getPrefsDirs(inclNone = inclNone)
+
+    def getDocsDir():
+        return getHomeDir()
+
+    def getPrefsDirs(inclNone = False):
+        if inclNone:
+            return [getHomeDir(), None]
+        else:
+            homeDir = getHomeDir()
+            if homeDir is not None:
+                return [homeDir]
+        return []
+elif platformSys == 'Windows':
+    from .getWinDirs import getAppDirs, getAppSuppDirs, getDocsDir, getPrefsDirs
+    PlatformName = 'win'
+else:
+    raise Exception(OSError('Operating system \'{}\' unsupported.'.format(platformSys)))
+
 
 def getHomeDir():
     """Return the path to the user's home directory.
