@@ -17,63 +17,8 @@ History:
 2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
 2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
 """
-import Carbon.Folder, Carbon.Folders
-import MacOS
+from Foundation import *
 
-def getStandardDir(domain, dirType, doCreate=False):
-    """Return a path to the specified standard directory or None if not found.
-    
-    The path is in unix notation for MacOS X native python
-    and Mac colon notation for Carbon python,
-    i.e. the form expected by the os.path module.
-    
-    Inputs:
-    - domain: one of the domain constants found in Carbon.Folders,
-        such as kUserDomain, kLocalDomain or kSystemDomain.
-    - dirType: one of the type constants found in Carbon.Folders,
-        such as kPreferencesFolderType or kTrashFolderType.
-        If dirType is None, then returns None.
-    - doCreate: try to create the directory if it does not exist?
-    """
-    if dirType is None:
-        return None
-    try:
-        fsref = Carbon.Folder.FSFindFolder(domain, dirType, doCreate)
-        return fsref.as_pathname()
-    except MacOS.Error:
-        return None
-
-def getMacUserSharedDirs(dirType, inclNone = False):
-    """Return the path to the user and shared folder of a particular type.
-    
-    Inputs:
-    - dirType   one of the Carbon.Folders constants
-    - inclNone  if True, paths to missing folders are set to None;
-                if False (the default) paths to missing folders are omitted
-    """ 
-    retDirs = []
-    for domain in Carbon.Folders.kUserDomain, Carbon.Folders.kLocalDomain:
-        path = getStandardDir(
-            domain = domain,
-            dirType = dirType,
-            doCreate = False,
-        )
-        if (path is not None) or inclNone:
-            retDirs.append(path)
-    return retDirs
-
-def getMacUserDir(dirType):
-    """Return the path to the user folder of a particular type,
-    or None if the directory does not exist.
-
-    Inputs:
-    - dirType   one of the Carbon.Folders constants
-    """ 
-    return getStandardDir(
-        domain = Carbon.Folders.kUserDomain,
-        dirType = dirType,
-        doCreate = False,
-    )
 
 def getAppDirs(inclNone = False):
     """Return up to two paths: user's private and shared application directory.
@@ -82,8 +27,18 @@ def getAppDirs(inclNone = False):
     - inclNone  if True, paths to missing folders are set to None;
                 if False (the default) paths to missing folders are omitted
     """
-    return getMacUserSharedDirs(Carbon.Folders.kApplicationsFolderType, inclNone = inclNone)
-    
+    userPrivateAppDirs = NSSearchPathForDirectoriesInDomains(
+            NSApplicationDirectory,
+            NSUserDomainMask,
+            True
+            )
+    userLocalAppDirs = NSSearchPathForDirectoriesInDomains(
+            NSApplicationDirectory,
+            NSLocalDomainMask,
+            True
+            )
+    return [*userPrivateAppDirs, *userLocalAppDirs]
+
 def getAppSuppDirs(inclNone = False):
     """Return up to two paths: the user's private and shared application support directory.
     
@@ -91,14 +46,29 @@ def getAppSuppDirs(inclNone = False):
     - inclNone  if True, paths to missing folders are set to None;
                 if False (the default) paths to missing folders are omitted
     """
-    return getMacUserSharedDirs(Carbon.Folders.kApplicationSupportFolderType, inclNone = inclNone)
+    userPrivateSuppDirs = NSSearchPathForDirectoriesInDomains(
+            NSApplicationSupportDirectory,
+            NSUserDomainMask,
+            True
+            )
+    userLocalSuppDirs = NSSearchPathForDirectoriesInDomains(
+            NSApplicationSupportDirectory,
+            NSLocalDomainMask,
+            True
+            )
+    return [*userPrivateSuppDirs, *userLocalSuppDirs] 
 
 def getDocsDir():
     """Return the path to the user's documents directory.
     
     Return None if the directory does not exist.
     """
-    return getMacUserDir(Carbon.Folders.kDocumentsFolderType)
+    userDocumentDir = NSSearchPathForDirectoriesInDomains(
+            NSDocumentDirectory,
+            NSUserDomainMask,
+            True
+            )
+    return userDocumentDir[-1]
 
 def getPrefsDirs(inclNone = False):
     """Return up to two paths: the user's local and shared preferences directory.
@@ -107,4 +77,15 @@ def getPrefsDirs(inclNone = False):
     - inclNone  if True, paths to missing folders are set to None;
                 if False (the default) paths to missing folders are omitted
     """
-    return getMacUserSharedDirs(Carbon.Folders.kPreferencesFolderType, inclNone = inclNone)
+    userPrivatePrefPanesDir = NSSearchPathForDirectoriesInDomains(
+            NSPreferencePanesDirectory,
+            NSUserDomainMask,
+            True
+            )
+    userLocalPrefPanesDir = NSSearchPathForDirectoriesInDomains(
+            NSPreferencePanesDirectory,
+            NSLocalDomainMask,
+            True
+            )
+    return [*userPrivatePrefPanesDir, *userLocalPrefPanesDir]
+
