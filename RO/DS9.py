@@ -262,43 +262,36 @@ def _findDS9AndXPA():
     _DirFromWhichToRunDS9 = None
     _DS9Path = "ds9"
     if RO.OS.PlatformName == "mac":
-        # ds9 and xpa may be in any of:
-        # - ~/Applications/ds9.app
-        # - /Applications.ds9.app
-        # - on the PATH (adding /usr/local/bin if necessary)
-        
+        _DS9BundleIdentifier = "com.sao.SAOImageDS9"
+        ## Using pyObjC python-objectiveC bridge.
+        try:
+            from AppKit import NSWorkspace
+            from Foundation import NSBundle
+        except ImportError as IError:
+            print(IError, ':', 'Install pyObjC for Python.')
+
+        ## Look for DS9 first.
+        try:
+            ds9Path = NSWorkspace.sharedWorkspace().\
+                    URLForApplicationWithBundleIdentifier_(_DS9BundleIdentifier).\
+                    path()
+        except AttributeError as AtrErr:
+            print(AtrErr, ':', 'Make sure App bundle {} is installed.'.format(_DS9BundleIdentifier))
+
+        ds9Bundle=NSBundle.bundleWithPath_(ds9Path)
+        _DS9Path=ds9Bundle.executablePath()
+        ds9Dir = os.path.dirname(_DS9Path)
+
+        ## Now look for xpa. Normally installed as a unix app in PATH.
+        try:
+            xpaDir = _findUnixApp("xpaget")
+        except Exception as ExErr:
+            print(ExErr,':','Make sure xpa tools are installed in PATH.')
+
         # add DISPLAY envinronment variable, if necessary
         # (since ds9 is an X11 application and environment
         os.environ.setdefault("DISPLAY", "localhost:0")
 
-        # look for ds9 and xpa inside of "ds9.app" or "SAOImage DS9.app"
-        # in the standard application locations
-        ds9Dir = _findApp("ds9", [
-            "SAOImage DS9.app/Contents/MacOS",
-            "SAOImageDS9.app/Contents/MacOS",
-        ], doRaise=False)
-        foundDS9 = (ds9Dir != None)
-        if foundDS9:
-            _DS9Path = os.path.join(ds9Dir, "ds9")
-        foundXPA = False
-        if ds9Dir and os.path.exists(os.path.join(ds9Dir, "xpaget")):
-            xpaDir = ds9Dir
-            foundXPA = True
-
-        # for anything not found, look on the PATH
-        # after making sure /usr/local/bin is on the PATH
-        if not (foundDS9 and foundXPA):
-            # make sure /usr/local/bin is on the PATH
-            # (if PATH isn't being set in ~/.MacOSX.environment.plist
-            # then the bundled Mac app will only see the standard default PATH).
-            _addToPATH("/usr/local/bin")
-
-            if not foundDS9:
-                ds9Dir = _findUnixApp("ds9")
-    
-            if not foundXPA:
-                xpaDir = _findUnixApp("xpaget")
-    
     elif RO.OS.PlatformName == "win":
         ds9Dir = _findApp("ds9.exe", ["ds9"], doRaise=True)
         xpaDir = _findApp("xpaget.exe", ["xpa", "ds9"], doRaise=True)
