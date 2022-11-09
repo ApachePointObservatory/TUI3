@@ -16,6 +16,7 @@ History:
                     Removed obsolete getPrefsDir.
 2015-09-24 ROwen    Replace "== None" with "is None" to modernize the code.
 2015-11-03 ROwen    Replace "!= None" with "is not None" to modernize the code.
+2022-11-09 GMacD    Now using pyObjC framework with Python 3.x.
 """
 from Foundation import *
 
@@ -89,3 +90,15 @@ def getPrefsDirs(inclNone = False):
             )
     return [*userPrivatePrefPanesDir, *userLocalPrefPanesDir]
 
+def getHomeDir():
+    """
+    Return user's home directory location.
+    """
+    return NSHomeDirectory()
+
+def getPrefsPrefix():
+    """
+    Return the preferences prefix for the preferences file,
+    and empty string for Maci i.e. no prefix.
+    """
+    return ''
