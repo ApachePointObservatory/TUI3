@@ -87,62 +87,16 @@ PlatformName = None
 
 platformSys = platform.system()
 if platformSys == 'Darwin':
-    from .getMacDirs import getAppDirs, getAppSuppDirs, getDocsDir, getPrefsDirs
+    from .getMacDirs import *
     PlatformName = 'mac'
 elif platformSys == 'Linux':
+    from .getLinuxDirs import *
     PlatformName = 'unix'
-    def getAppDirs(inclNone = False):
-        # use PATH to find apps on unix
-        if inclNone:
-            return [None, None]
-        else:
-            return []
-            
-    def getAppSuppDirs(inclNone = False):
-        return getPrefsDirs(inclNone = inclNone)
-
-    def getDocsDir():
-        return getHomeDir()
-
-    def getPrefsDirs(inclNone = False):
-        if inclNone:
-            return [getHomeDir(), None]
-        else:
-            homeDir = getHomeDir()
-            if homeDir is not None:
-                return [homeDir]
-        return []
 elif platformSys == 'Windows':
     from .getWinDirs import getAppDirs, getAppSuppDirs, getDocsDir, getPrefsDirs
     PlatformName = 'win'
 else:
     raise Exception(OSError('Operating system \'{}\' unsupported.'.format(platformSys)))
-
-
-def getHomeDir():
-    """Return the path to the user's home directory.
-
-    Return None if the directory cannot be determined.
-    
-    A typical return on English system is:
-    - MacOS X: /Users/<username>
-    - Mac Classic: ?
-    - unix: (depends on the flavor of unix)
-    - Windows: C:\Documents and Settings\<username>
-    """
-    if PlatformName == 'win':
-        return os.environ.get('USERPROFILE')
-    else:
-        return os.environ.get('HOME')
-
-def getPrefsPrefix():
-    """Return the usual prefix for the preferences file:
-    '.' for unix, '' otherwise.
-    """
-    global PlatformName
-    if PlatformName == 'unix':
-        return '.'
-    return ''
 
 
 if __name__ == '__main__':
