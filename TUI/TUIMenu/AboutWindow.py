@@ -37,6 +37,11 @@ try:
     pygameVersion = pygame.__version__
 except ImportError:
     pygameVersion = "not installed"
+try:
+    import objc
+    objcVersion = objc.__version__
+except ImportError:
+    objcVersion = "not installed"
 import RO.Wdg
 from RO.StringUtil import strFromException
 import TUI.TUIModel
@@ -67,6 +72,7 @@ def getInfoDict():
     # Image uses VERSION, but PILLOW supports __version__
     res["pil"] = getattr(Image, "VERSION", getattr(Image, "__version__", "unknown"))
     res["pygame"] = pygameVersion
+    res["pyobjc"] = objcVersion
     res["specialFiles"] = getSpecialFileStr()
     return res
 
@@ -122,6 +128,7 @@ numpy: %(numpy)s
 %(astropy)s
 PIL: %(pil)s
 pygame: %(pygame)s
+pyObjC: %(pyobjc)s
 
 With special thanks to:
 - Joseph Huehnerhoff for the Windows builds
