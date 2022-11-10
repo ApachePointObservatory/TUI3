@@ -277,19 +277,19 @@ class FocusSetDialog(RO.Wdg.ModalDialogBase):
               defMenu = "Default",
               helpText = "%s focus offset" % (self.name,),
           )
-        if RO.TkUtil.getWindowingSystem() == RO.TkUtil.WSysAqua:
-             # work around tk bug 1101854
-            self.valWdg.unbind("<<CtxMenu>>")
-            self.valWdg.selectAll()
-            self.valWdg.pack(side="left")
-            u = tkinter.Label(valFrame,
-              text=RO.StringUtil.MuStr + "m",
-            )
-            u.pack(side="left")
-            valFrame.pack(side="top", anchor="w")
+        #if (RO.TkUtil.getWindowingSystem() == RO.TkUtil.WSysAqua):
+        # work around tk bug 1101854. calls below are un-indented.
+        self.valWdg.unbind("<<CtxMenu>>")
+        self.valWdg.selectAll()
+        self.valWdg.pack(side="left")
+        u = tkinter.Label(valFrame,
+          text=RO.StringUtil.MuStr + "m",
+        )
+        u.pack(side="left")
+        valFrame.pack(side="top", anchor="w")
         
-#        s = RO.Wdg.StatusBar(master)
-#        s.pack(side="top", expand=True, fill="x")
+        s = RO.Wdg.StatusBar(master)
+        s.pack(side="top", expand=True, fill="x")
         
         self.okWdg.helpText = "Set %s focus"  % (self.name.lower(),)
         self.cancelWdg.helpText = "Cancel"
