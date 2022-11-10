@@ -111,9 +111,9 @@ class ModalDialogBase(tkinter.Toplevel):
         Override if you want something else.
         """
         
-        self.okWdg = Button.Button(master, text="OK", width=6, command=self.ok, default="active")
+        self.okWdg = Button(master, text="OK", width=6, command=self.ok, default="active")
         self.okWdg.pack(side="left")
-        self.cancelWdg = Button.Button(master, text="Cancel", width=6, command=self.close)
+        self.cancelWdg = Button(master, text="Cancel", width=6, command=self.close)
         self.cancelWdg.pack(side="left")
 
         self.bind("<KeyPress-Return>", self.ok)
