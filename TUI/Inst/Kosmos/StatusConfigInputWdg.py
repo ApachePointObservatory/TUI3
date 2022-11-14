@@ -698,7 +698,7 @@ class StatusConfigInputWdg (RO.Wdg.InputContFrame):
             krypton = "?"
         else:
             krypton = str(krypton)
-
+        
         if krypton.__eq__("off"):
             self.kryptonCurrWdg.set(krypton, severity=RO.Constants.sevNormal)
         elif krypton.__eq__("on"):
@@ -719,7 +719,6 @@ class StatusConfigInputWdg (RO.Wdg.InputContFrame):
             self.quartzCurrWdg.set(quartz, severity=RO.Constants.sevNormal)
         elif quartz.__eq__("on"):
             self.quartzCurrWdg.set(quartz, severity=RO.Constants.sevCritical)
-
         self.quartzUserWdg.setDefault(quartz, doCheck=False)
 
 
@@ -736,7 +735,6 @@ class StatusConfigInputWdg (RO.Wdg.InputContFrame):
             self.argonCurrWdg.set(argon, severity=RO.Constants.sevNormal)
         elif argon.__eq__("on"):
             self.argonCurrWdg.set(argon, severity=RO.Constants.sevCritical)      
-        self.argonCurrWdg.set(argon, severity=RO.Constants.sevNormal)
         self.argonUserWdg.setDefault(argon, doCheck=False)
 
     def _getUserBinFac(self):
