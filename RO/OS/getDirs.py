@@ -93,7 +93,7 @@ elif platformSys == 'Linux':
     from .getLinuxDirs import *
     PlatformName = 'unix'
 elif platformSys == 'Windows':
-    from .getWinDirs import getAppDirs, getAppSuppDirs, getDocsDir, getPrefsDirs
+    from .getWinDirs import * 
     PlatformName = 'win'
 else:
     raise Exception(OSError('Operating system \'{}\' unsupported.'.format(platformSys)))
