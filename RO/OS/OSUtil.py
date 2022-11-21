@@ -282,8 +282,8 @@ def openUniv(path):
     """Opens a text file for reading in universal newline mode, if possible;
     silently opens without universal mode for Python versions < 2.3.
     """
-    if sys.version_info[0:2] >= (2,3):
-        # use universal newline support (new in Python 2.3)
+    if sys.version_info[0:2] < (3,3):
+        # universal newline support deprecated since Python 3.3)
         openMode = 'rU'
     else:
         openMode = 'r'
