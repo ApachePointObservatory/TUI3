@@ -140,6 +140,19 @@ def getPrefsDirs(inclNone = False):
     """
     return getAppSuppDirs(inclNone = inclNone)
 
+def getHomeDir():
+    """
+    Return path of user's home directory.
+    """
+    return getStandardDir(shellcon.CSIDL_PROFILE) 
+
+def getPrefsPrefix():
+    """
+    Returns an empty string for Windows.
+    """
+    return ''
+
+
 
 if __name__ == "__main__":
     print("Testing")
@@ -148,3 +161,6 @@ if __name__ == "__main__":
         print('getAppSuppDirs(%s) = %r' % (inclNone, getAppSuppDirs(inclNone)))
         print('getPrefsDirs(%s)   = %r' % (inclNone, getPrefsDirs(inclNone)))
     print('getDocsDir()         = %r' % getDocsDir())
+    print('getHomeDir()         = %r' % getHomeDir())
+    print('getPrefsPrefix()     = %r' % getPrefsPrefix())
+
