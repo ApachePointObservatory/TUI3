@@ -57,7 +57,6 @@ History:
 2015-11-10 ROwen    Added "FileDialog" back to inclModules; the current py2app requires it.
 """
 import os
-from plistlib import Plist
 import shutil
 import subprocess
 import sys
@@ -87,18 +86,25 @@ inclPackages = (
     "matplotlib", # py2app already does this, but it doesn't hurt to insist
 )
 
-plist = Plist(
+#plist = Plist(
+#    CFBundleName                = appName,
+#    CFBundleShortVersionString  = shortVersStr,
+#    CFBundleGetInfoString       = "%s %s" % (appName, fullVersStr),
+#    CFBundleExecutable          = appName,
+#    LSMinimumSystemVersion      = "10.6.0",
+##    LSArchitecturePriority      = ("i386",) # force 32-bit mode;
+#        # this is needed for Tcl/TK 8.5.11 to run on MacOS X 10.9;
+#        # I'm stuck with 8.5.11 due to a crashing bug in Tcl/Tk 8.5.12 - 8.5.15.1
+#        # 8.5.16 has a nasty regression in http that prevents downloading images
+#        # 8.5.17 is a possibility; I'm trying a release candidate as I write this
+#)
+plist = dict(
     CFBundleName                = appName,
     CFBundleShortVersionString  = shortVersStr,
     CFBundleGetInfoString       = "%s %s" % (appName, fullVersStr),
     CFBundleExecutable          = appName,
-    LSMinimumSystemVersion      = "10.6.0",
-#    LSArchitecturePriority      = ("i386",) # force 32-bit mode;
-        # this is needed for Tcl/TK 8.5.11 to run on MacOS X 10.9;
-        # I'm stuck with 8.5.11 due to a crashing bug in Tcl/Tk 8.5.12 - 8.5.15.1
-        # 8.5.16 has a nasty regression in http that prevents downloading images
-        # 8.5.17 is a possibility; I'm trying a release candidate as I write this
-)
+    LSMinimumSystemVersion      = "10.6.0"
+    )
 
 setup(
     app = [mainProg],
