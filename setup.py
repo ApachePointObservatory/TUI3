@@ -84,20 +84,14 @@ if platformSystem == "Darwin":
     print("*** Done building %s ***" % (appName,))
 
 elif platformSystem == "Windows":
+    
+    import py2exe
+    
     platformOptions = dict(
-            app = [mainProg],
+            windows = [mainProg],
             setup_requires = ["py2exe"],
-            options = dict(
-                py2exe = dict(
-                    iconfile = iconFile,
-                    includes = inclModules,
-                    packages = (*inclPackages,
-                        "pywintypes",
-                        "win32com",
-                        "TUI",
-                        "RO"),
-                    ),
-                ),
+            install_requires = ("matplotlib", "numpy", "astropy", "pillow"),
+            packages = ("TUI", "RO"),
             )
 
     doSetup( platformOptions )
@@ -105,7 +99,7 @@ elif platformSystem == "Windows":
 elif platformSystem == "Linux":
     platformOptions = dict(
         scripts = [mainProg],
-        install_requires = ("matplotlib", "numpy", "astropy", "pillow", "pygame"),
+        install_requires = ("matplotlib", "numpy", "astropy", "pillow"),
         packages=("TUI", "RO"),
     )
 
