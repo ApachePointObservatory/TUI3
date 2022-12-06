@@ -87,7 +87,7 @@ elif platformSystem == "Windows":
     platformOptions = {
         'windows' : [mainProg],
         'entry_points' : {
-            'console_scripts' : ['runtui.py = TUI.Main:runTUI'],
+            'console_scripts' : ['runtui = TUI.Main:runTUI'],
             },
         'install_requires' : ("matplotlib", "numpy", "astropy", "pillow"),
         'package_dir' : {
