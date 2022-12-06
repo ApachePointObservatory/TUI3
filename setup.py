@@ -84,23 +84,21 @@ if platformSystem == "Darwin":
     print("*** Done building %s ***" % (appName,))
 
 elif platformSystem == "Windows":
-    
-    import py2exe
-    
     platformOptions = {
-            'windows' : [mainProg],
-            'setup_requires' : ["py2exe"],
-            'install_requires' : ("matplotlib", "numpy", "astropy", "pillow", "pygame"),
-            #'packages' = ("TUI", "RO"),
-            'package_dir' : {
-                'TUI' : 'TUI',
-                'RO' : 'RO'
-                },
-            'package_data' : {
-                'RO.Bitmaps' : ['*.xbm'],
-                'TUI.Sounds' : ['*.wav']
-                },
-            }
+        'windows' : [mainProg],
+        'entry_points' : {
+            'console_scripts' : ['runtui.py = TUI.Main:runTUI'],
+            },
+        'install_requires' : ("matplotlib", "numpy", "astropy", "pillow"),
+        'package_dir' : {
+            'TUI' : 'TUI',
+            'RO' : 'RO'
+            },
+        'package_data' : {
+            'RO.Bitmaps' : ['*.xbm'],
+            'TUI.Sounds' : ['*.wav']
+            },
+        }
 
     doSetup( platformOptions )
 
