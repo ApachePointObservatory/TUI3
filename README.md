@@ -12,7 +12,7 @@ Install the latest version of Python 3.x on your system from Python.org. Update 
 
 ### Linux
 
-Many mondern Linux distrobutions have package managing software. Use of those utilities is encouraged. Consult your distro's documentation for more information. Install Python 3.x on your system and update the ```pip``` package by doing ```pip install --upgrade pip``` from the command line.
+Many modern Linux distributions have package-managing software. Use of those utilities is encouraged. Consult your distro's documentation for more information. Install Python 3.x on your system and update the ```pip``` package by doing ```pip install --upgrade pip``` from the command line.
 
 
 ### Windows
@@ -57,7 +57,7 @@ The following Python Packages and external software are optional, but increase t
 	* SAOImageDS9
 	* XPA Library
 
-If standard TUI sound output is desired, then install ```pygame``` by doing a ```pip install pygame``` from the command line. Noe that for Mac and Linux platforms, the installation of ```pygame``` is required by the ```setup.py``` script.
+If standard TUI sound output is desired, then install ```pygame``` by doing a ```pip install pygame``` from the command line. Note that for Mac and Linux platforms, the installation of ```pygame``` is required by the ```setup.py``` script.
 
 
 ## Install TUI3
@@ -80,12 +80,12 @@ If your user account doesn't have administrative privileges, TUI3 can be install
 
 ### MacOS
 
-From the TUI3 root directory, do ```python setup.py py2app``` instead. A ```dmg``` image will be created in the ```dist/``` directory. Navigate to that file, open it, and drag-and-drop the TUI.app object into the Applications Folder in Finder. TUI3 should now be available in Finder.
+From the TUI3 root directory, do ```python setup.py py2app```. A ```dmg``` image will be created in the ```dist/``` directory. Navigate to that file, open it, and drag-and-drop the TUI.app object into the Applications Folder in Finder. TUI3 should now be available in Finder.
 
 
 ### Windows
 
-From the command prompt, navigate to the TUI3 directory and run ```python setup.py install```. The TUI3 executable should be installed in ```C:\Users\<your user directory>\AppData\Local\Programs\Python\Python<version>\Scripts\runtui.exe```. Navigate to it in File Explorer, right click ```runtui.exe``` and click "Send to -> Desktop (create shortcut)". The resulting desktop shortcut can be double-clicked to run TUI3.
+From the command prompt, navigate to the TUI3 directory and run ```python setup.py install```. The TUI3 executable should be installed in ```C:\Users\<your user directory>\AppData\Local\Programs\Python\Python<version>\Scripts\runtui.exe```. Navigate to it in File Explorer, right-click ```runtui.exe``` and click "Send to -> Desktop (create shortcut)". The resulting desktop shortcut can be double-clicked to run TUI3.
 
 
 ## Known Bugs
