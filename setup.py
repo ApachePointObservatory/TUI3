@@ -64,7 +64,6 @@ if platformSystem == "Darwin":
                 py2app = dict (
                     plist = plist,
                     iconfile = iconFile,
-                    includes = inclModules,
                     packages = (*inclPackages,
                         "Foundation",
                         "TUI",
