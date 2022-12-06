@@ -31,14 +31,6 @@ roRoot = os.path.join(tuiRoot, "RO")
 sys.path = [roRoot, tuiRoot] + sys.path
 import TUI.Version
 
-# packages to include recursively
-inclModules = ()
-inclPackages = (
-    "matplotlib",
-    "numpy",
-    "astropy",
-    "PIL",
-)
 appName = TUI.Version.ApplicationName
 mainProg = os.path.join(tuiRoot, "runtuiWithLog.py")
 iconFile = "%s.icns" % appName
@@ -57,6 +49,14 @@ if platformSystem == "Darwin":
         LSMinimumSystemVersion      = "10.6.0"
         )
     
+    inclPackages = (
+        "matplotlib",
+        "numpy",
+        "astropy",
+        "PIL",
+        "pygame",
+    )
+
     platformOptions = dict(
             app = [mainProg],
             setup_requires = ["py2app"],
@@ -87,21 +87,36 @@ elif platformSystem == "Windows":
     
     import py2exe
     
-    platformOptions = dict(
-            windows = [mainProg],
-            setup_requires = ["py2exe"],
-            install_requires = ("matplotlib", "numpy", "astropy", "pillow"),
-            packages = ("TUI", "RO"),
-            )
+    platformOptions = {
+            'windows' : [mainProg],
+            'setup_requires' : ["py2exe"],
+            'install_requires' : ("matplotlib", "numpy", "astropy", "pillow", "pygame"),
+            #'packages' = ("TUI", "RO"),
+            'package_dir' : {
+                'TUI' : 'TUI',
+                'RO' : 'RO'
+                },
+            'package_data' : {
+                'RO.Bitmaps' : ['*.xbm'],
+                'TUI.Sounds' : ['*.wav']
+                },
+            }
 
     doSetup( platformOptions )
 
 elif platformSystem == "Linux":
-    platformOptions = dict(
-        scripts = [mainProg],
-        install_requires = ("matplotlib", "numpy", "astropy", "pillow"),
-        packages=("TUI", "RO"),
-    )
+    platformOptions = {
+        'scripts' : [mainProg],
+        'entry_points' : {
+            'console_scripts' : ['runtui.py = TUI.Main:runTUI'],
+            },
+        'install_requires' : ("matplotlib", "numpy", "astropy", "pillow", "pygame"),
+        'package_dir' : {
+            'TUI' : 'TUI',
+            'RO' : 'RO'
+            },
+        'package_data' : {'RO.Bitmaps' : ['*.xbm'], 'TUI.Sounds' : ['*.wav']}
+        }
 
     doSetup( platformOptions )
 
