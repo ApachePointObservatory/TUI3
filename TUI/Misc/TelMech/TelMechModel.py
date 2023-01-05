@@ -92,8 +92,8 @@ class CatInfo(RO.AddCallback.BaseMixin):
         self.devDict = RO.Alg.OrderedDict() # dict of device name: keyword variable
         self.devIndDict = {}    # dict of device name: index
 
-        self.devState = numpy.zeros([len(devNames)], numpy.float)
-        self.devIsCurrent = numpy.zeros([len(devNames)], numpy.bool)
+        self.devState = numpy.zeros([len(devNames)], float)
+        self.devIsCurrent = numpy.zeros([len(devNames)], bool)
         
         self.readOnly = isReadOnly
         if isOpenShut:
