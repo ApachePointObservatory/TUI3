@@ -89,7 +89,7 @@ class DevStateWdg(RO.Wdg.Label):
             return ("?", RO.Constants.sevWarning)
 
         if self.patternDict:
-            statusStrSev = self.patternDict.get(tuple(devState.astype(numpy.bool)))
+            statusStrSev = self.patternDict.get(tuple(devState.astype(bool)))
             if statusStrSev is not None:
                 return statusStrSev
             
