@@ -68,7 +68,8 @@ if platformSystem == "Darwin":
                         "Foundation",
                         "TUI",
                         "RO"),
-                    )
+                    emulate_shell_environment = True,
+                    ),
                 ),
             )
 
