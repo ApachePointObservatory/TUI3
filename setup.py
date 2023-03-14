@@ -69,6 +69,7 @@ if platformSystem == "Darwin":
                         "TUI",
                         "RO"),
                     emulate_shell_environment = True,
+                    arch = "x86_64",
                     ),
                 ),
             )

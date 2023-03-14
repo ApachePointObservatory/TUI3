@@ -80,7 +80,9 @@ If your user account doesn't have administrative privileges, TUI3 can be install
 
 ### MacOS
 
-From the TUI3 root directory, do ```python setup.py py2app```. A ```dmg``` image will be created in the ```dist/``` directory. Navigate to that file, open it, and drag-and-drop the TUI.app object into the Applications Folder in Finder. TUI3 should now be available in Finder.
+From the TUI3 root directory, do ```python3 setup.py py2app```. A ```dmg``` image will be created in the ```dist/``` directory. Navigate to that file, open it, and drag-and-drop the TUI.app object into the Applications Folder in Finder. TUI3 should now be available in Finder.
+
+For M1 and M2 ```ARM64``` architectures, we build TUI as an ```x86_64``` application and allow the Rosetta translation layer to handle everything. Make sure to install all dependent packages in an ```x86_64``` environment by doing ```arch -x86_64 pip3 install <package-name>```. Then, from the TUI3 root directory, do ```arch -x86_64 python3 setup.py py2app --arch x86_64``` to build TUI.
 
 
 ### Windows
