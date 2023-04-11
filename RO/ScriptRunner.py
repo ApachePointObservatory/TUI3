@@ -1224,7 +1224,7 @@ class _WaitThread(_WaitBase):
     
     def checkEnd(self):
         
-        if self.threadObj.isAlive():
+        if self.threadObj.is_alive():
             self._pollTimer.start(_PollDelaySec, self.checkEnd)
             return
 #       print "_WaitThread(%r).checkEnd: thread done" % self.func
