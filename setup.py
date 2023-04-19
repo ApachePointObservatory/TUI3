@@ -55,6 +55,8 @@ if platformSystem == "Darwin":
         "astropy",
         "PIL",
         "pygame",
+        "scipy",
+        "Foundation",
     )
 
     platformOptions = dict(
@@ -65,7 +67,6 @@ if platformSystem == "Darwin":
                     plist = plist,
                     iconfile = iconFile,
                     packages = (*inclPackages,
-                        "Foundation",
                         "TUI",
                         "RO"),
                     emulate_shell_environment = True,
@@ -90,7 +91,7 @@ elif platformSystem == "Windows":
         'entry_points' : {
             'console_scripts' : ['runtui = TUI.Main:runTUI'],
             },
-        'install_requires' : ("matplotlib", "numpy", "astropy", "pillow"),
+        'install_requires' : ("matplotlib", "numpy", "astropy", "pillow", "scipy"),
         'package_dir' : {
             'TUI' : 'TUI',
             'RO' : 'RO'
@@ -109,7 +110,7 @@ elif platformSystem == "Linux":
         'entry_points' : {
             'console_scripts' : ['runtui.py = TUI.Main:runTUI'],
             },
-        'install_requires' : ("matplotlib", "numpy", "astropy", "pillow", "pygame"),
+        'install_requires' : ("matplotlib", "numpy", "astropy", "pillow", "pygame", "scipy"),
         'package_dir' : {
             'TUI' : 'TUI',
             'RO' : 'RO'
