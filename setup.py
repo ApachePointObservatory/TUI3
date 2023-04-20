@@ -55,7 +55,6 @@ if platformSystem == "Darwin":
         "astropy",
         "PIL",
         "pygame",
-        "scipy",
         "Foundation",
     )
 
@@ -91,7 +90,7 @@ elif platformSystem == "Windows":
         'entry_points' : {
             'console_scripts' : ['runtui = TUI.Main:runTUI'],
             },
-        'install_requires' : ("matplotlib", "numpy", "astropy", "pillow", "scipy"),
+        'install_requires' : ("matplotlib", "numpy", "astropy", "pillow"),
         'package_dir' : {
             'TUI' : 'TUI',
             'RO' : 'RO'
@@ -110,7 +109,7 @@ elif platformSystem == "Linux":
         'entry_points' : {
             'console_scripts' : ['runtui.py = TUI.Main:runTUI'],
             },
-        'install_requires' : ("matplotlib", "numpy", "astropy", "pillow", "pygame", "scipy"),
+        'install_requires' : ("matplotlib", "numpy", "astropy", "pillow", "pygame"),
         'package_dir' : {
             'TUI' : 'TUI',
             'RO' : 'RO'
