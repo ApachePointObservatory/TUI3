@@ -119,6 +119,8 @@ class MessageWdg(tkinter.Frame):
             
         # add bindings
         self.inText.bind('<KeyPress-Return>', self.doSend)
+        self.inText.bind('<Control-a>', self.inText.selectAll)
+        self.inText.bind('<Control-A>', self.inText.selectAll)
         self.outText.bind("<KeyPress>", self._fixFocus)
         # allow modifier keys to work
         self.outText.bind("<Control-KeyPress>", nullFunc)
