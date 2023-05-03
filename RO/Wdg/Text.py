@@ -187,11 +187,12 @@ class Text (tkinter.Text, CtxMenuMixin):
         if stopindex: args.append(stopindex)
         return self.tk.call(tuple(args))
 
-    def selectAll(self):
+    def selectAll(self,event):
         """Select all text in the Entry.
         Has no effect if there is no text.
         """
         self.tag_add("sel", "0.0", "end")
+        return "break"
 
     def setEnable(self, doEnable):
         """Set enabled state.
