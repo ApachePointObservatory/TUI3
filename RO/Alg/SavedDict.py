@@ -28,7 +28,7 @@ class SavedDict(collections.abc.MutableMapping):
         self._filePath = filePath
         self._data = dict()
         if os.path.isfile(filePath):
-            with open(self._filePath, "rU") as inFile:
+            with open(self._filePath, "r") as inFile:
                 dataStr = inFile.read()
             self._data = json.loads(dataStr)
 
