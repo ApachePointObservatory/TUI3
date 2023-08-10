@@ -1,6 +1,7 @@
 import TUI.TCC.TCCModel
 import TUI.Inst.DIS.DISModel
 from TUI.Inst.DIS.StatusConfigInputWdg import StatusConfigInputWdg
+from RO.Wdg import StateTracker
 
 InstName = "DIS"
 
@@ -12,7 +13,7 @@ class ScriptClass(object):
         # if True, run in debug-only mode (which doesn't DO anything, it just pretends)
         sr.debug = False
 
-        statusWdg = StatusConfigInputWdg(sr.master)
+        statusWdg = StatusConfigInputWdg(sr.master, StateTracker())
         statusWdg.grid(row=0, column=0)
     
     def run(self, sr):
