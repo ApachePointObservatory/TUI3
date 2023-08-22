@@ -764,7 +764,7 @@ class ScriptClass(object):
         gridPath = self._gridDict[gridName]
         azList = []
         altList = []
-        with open(gridPath, "rU") as gridFile:
+        with open(gridPath, "r") as gridFile:
             for i, line in enumerate(gridFile):
                 line = line.strip()
                 if not line or line[0] in ("#", "!"):
