@@ -40,12 +40,12 @@ class _SocketProtocol(Protocol):
     lineEndPattern: line-ending delimiters used by readLine, as a compiled regular expression.
         By default it uses any of \r\n, \r or \n
     """
-    lineEndPattern = re.compile("\r\n|\r|\n")
+    lineEndPattern = re.compile(b"\r\n|\r|\n")
 
     def __init__(self):
         self._readCallback = nullCallback
         self._connectionLostCallback = nullCallback
-        self.__buffer = ""
+        self.__buffer = b""
 
     def roSetCallbacks(self, readCallback, connectionLostCallback):
         """Add Socket-specific callbacks
@@ -150,7 +150,7 @@ class Socket(BaseSocket):
         stateCallback = nullCallback,
         timeLim = None,
         name = "",
-        lineTerminator = "\r\n",
+        lineTerminator = b"\r\n",
     ):
         """Construct a Socket
 
@@ -284,7 +284,10 @@ class Socket(BaseSocket):
         """
         if not self.isReady:
             raise RuntimeError("%s not connected" % (self,))
-        return self._protocol.readLine(default)
+        line = self._protocol.readLine(default)
+        if type(line) is bytes:
+            line = line.decode()
+        return line
 
     def write(self, data):
         """Write data to the socket (without blocking)
@@ -308,7 +311,15 @@ class Socket(BaseSocket):
         #print "%s.write(%r)" % (self, data)
         if not self.isReady:
             raise RuntimeError("%s.write(%r) failed: not connected" % (self, data))
-        self._protocol.transport.write(str(data))
+        if type(data) is bytes:
+            self._protocol.transport.write(data)
+        elif type(data) is str:
+            self._protocol.transport.write(bytes(data, 'utf-8'))
+        else:
+            try:
+                self._protocol.transport.write(bytes(data))
+            except Exception as err:
+                raise RuntimeError(err)
 
     def writeLine(self, data):
         """Write a line of data terminated by standard newline
