@@ -325,7 +325,15 @@ class Socket(BaseSocket):
         """Write a line of data terminated by standard newline
         """
         #print "%s.writeLine(data=%r)" % (self, data)
-        self.write(data + self.lineTerminator)
+        if type(data) is bytes:
+            self.write(data + self.lineTerminator)
+        elif type(data) is str:
+            self.write(data.encode() + self.lineTerminator)
+        else:
+            try:
+                self.write(data + self.lineTerminator)
+            except Exception as err:
+                raise RuntimeError(err)
 
     def _connectTimeout(self):
         """Call if connection times out
@@ -361,7 +369,7 @@ class TCPSocket(Socket):
         stateCallback = None,
         timeLim = None,
         name = "",
-        lineTerminator = "\r\n",
+        lineTerminator = b"\r\n",
     ):
         """Construct a TCPSocket
 
@@ -621,9 +629,9 @@ if __name__ == "__main__":
             testStr = next(strIter)
             print("Client writing %r" % (testStr,))
             if binary:
-                clientSocket.write(testStr)
+                clientSocket.write(testStr.encode())
             else:
-                clientSocket.writeLine(testStr)
+                clientSocket.writeLine(testStr.encode())
             Timer(0.001, runTest)
         except StopIteration:
             pass
@@ -687,7 +695,7 @@ if __name__ == "__main__":
         def sockReadCallback(self, sock):
             readLine = sock.readLine(default=None)
             if readLine is not None:
-                sock.writeLine(readLine)
+                sock.writeLine(readLine.encode())
 
     print("*** Starting echo server on port %s; binary=%s" % (port, binary))
     echoServer = EchoServer(port = port, stateCallback = serverState)
