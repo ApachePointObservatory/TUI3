@@ -77,7 +77,7 @@ except ImportError:
 
 import RO.Comm.Generic
 
-UseTwisted = True
+UseTwisted = False
 if UseTwisted:
     RO.Comm.Generic.setFramework("twisted")
 else:
