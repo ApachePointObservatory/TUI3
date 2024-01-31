@@ -8,7 +8,7 @@ History:
 """
 __all__ = ["SavedDict"]
 
-import collections
+import collections.abc
 import json
 import os.path
 
