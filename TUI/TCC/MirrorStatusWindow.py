@@ -94,6 +94,7 @@ class MirrorStatusWdg (tkinter.Frame):
                     width = width,
                     helpText = "%s (%s)" % (helpText, keyVarName,),
                     helpURL = _HelpURL,
+                    font='TkFixedFont',
                 ) for prec, width in orientPrecWidthSet[0:numAxes]
             ]
             gr.gridWdg (
@@ -214,6 +215,7 @@ class MirrorStatusWdg (tkinter.Frame):
                     width = mountWidth,
                     helpText = "%s (%s)" % (helpText, keyVarName),
                     helpURL = _HelpURL,
+                    font='TkFixedFont',
                 ) for ii in range(numAxes)
             ]
             gr.gridWdg (
