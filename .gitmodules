@@ -1,3 +1,6 @@
 [submodule "RO"]
 	path = RO
 	url = https://github.com/ApachePointObservatory/RO3.git
+[submodule "RO3"]
+	path = RO3
+	url = https://github.com/ApachePointObservatory/RO3.git
