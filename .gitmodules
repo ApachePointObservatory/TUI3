@@ -1,0 +1,3 @@
+[submodule "RO"]
+	path = RO
+	url = https://github.com/ApachePointObservatory/RO3.git
