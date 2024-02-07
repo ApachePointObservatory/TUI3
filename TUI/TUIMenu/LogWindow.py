@@ -80,7 +80,7 @@ import TUI.Models.HubModel
 import TUI.TUIModel
 import TUI.PlaySound
 import TUI.Version
-import collections
+import collections.abc
 
 HelpURL = "TUIMenu/LogWin.html"
 WindowName = "%s.Log" % (TUI.Version.ApplicationName,)
@@ -658,7 +658,7 @@ class TUILogWdg(tkinter.Frame):
             if not funcStr:
                 return nullFunc
             filterFunc = eval(funcStr)
-            if not isinstance(filterFunc, collections.Callable):
+            if not isinstance(filterFunc, collections.abc.Callable):
                 raise RuntimeError("not a function: %s" % (funcStr,))
             filterFunc.__doc__ = funcStr
             return filterFunc
