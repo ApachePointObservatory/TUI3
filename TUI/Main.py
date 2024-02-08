@@ -107,8 +107,15 @@ def runTUI():
         pass
 
     if UseTwisted:
-        import twisted.internet.tksupport
-        twisted.internet.tksupport.install(root)
+        ## This function gets around the twisted tksupport.install
+        ## function using root.update() and uses dooneevent instead.
+        def installTkRootIntoReactor(root, ms=10):
+            import twisted.internet.task
+            _tkTask = twisted.internet.task.LoopingCall(
+                    root.dooneevent
+                    )
+            _tkTask.start(ms/1000.0, False)
+        installTkRootIntoReactor(root, ms=1)
         import twisted.internet
         reactor = twisted.internet.reactor
     
