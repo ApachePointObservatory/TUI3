@@ -37,10 +37,11 @@ TUI 3.x needs the following packages to run:
 	* matplotlib
 	* numpy
 	* pillow
+	* twisted
 	* pyobjc (MacOS only)
 	* pywin32 (Windows only)
 
-From a commandline, do the following command: ```pip install astropy matplotlib numpy pillow```.
+From a commandline, do the following command: ```pip install astropy matplotlib numpy pillow twisted```.
 
 On some platforms, administrative privileges are needed to do a system-wide package install. In these cases, it's OK to run ```pip install --user <package names here>```.
 
