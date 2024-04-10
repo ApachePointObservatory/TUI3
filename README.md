@@ -67,7 +67,7 @@ If standard TUI sound output is desired, then install ```pygame``` by doing a ``
 
 Open a browser and go to [the TUI3 repo](https://github.com/ApachePointObservatory/TUI3). Select the most recent source release in the upper-corner, and then download a zip file. Unzip to a suitable source directory.
 
-If you have the git command line interface installed, navigate to a suitable source directory and do a ```git clone --branch <most recent release> https://github.com/ApachePointObservatory/TUI3.git```.
+If you have the git command line interface installed, navigate to a suitable source directory and do a ```git clone --branch <most recent release> --recurse-submodules https://github.com/ApachePointObservatory/TUI3.git```.
 
 
 ### Linux
@@ -89,13 +89,6 @@ For M1 and M2 ```ARM64``` architectures, we build TUI as an ```x86_64``` applica
 ### Windows
 
 From the command prompt, navigate to the TUI3 directory and run ```python setup.py install```. The TUI3 executable should be installed in ```C:\Users\<your user directory>\AppData\Local\Programs\Python\Python<version>\Scripts\runtui.exe```. Navigate to it in File Explorer, right-click ```runtui.exe``` and click "Send to -> Desktop (create shortcut)". The resulting desktop shortcut can be double-clicked to run TUI3.
-
-
-## Known Bugs
-
-Below is a list of known bugs:
-
-	* A suspected race condition exists when attempting to authenticate the TUI session on the APO Servers. This condition is most frequently encountered when the local session is connects via an ethernet interface as opposed to a wireless interface. "Cancel" the connection, and click "Connect" again, and continue to repeat until the connection succeeds.
 
 
 ## Bug Reporting
