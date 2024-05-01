@@ -58,7 +58,7 @@ if platformSystem == "Darwin":
         "pygame",
         "Foundation",
         "scipy",
-        "pmw",
+        "Pmw",
     )
 
     platformOptions = dict(
