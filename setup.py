@@ -54,8 +54,11 @@ if platformSystem == "Darwin":
         "numpy",
         "astropy",
         "PIL",
+        "twisted",
         "pygame",
         "Foundation",
+        "scipy",
+        "pmw",
     )
 
     platformOptions = dict(
