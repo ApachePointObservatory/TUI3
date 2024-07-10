@@ -64,6 +64,9 @@ import sys
 import time
 import tkinter
 
+## Initiate Tk toplevel before importing matplotlib
+root = tkinter.Tk()
+
 # make sure matplotlib is configured correctly (if it is available)
 try:
     import matplotlib
@@ -98,7 +101,6 @@ def runTUI():
     """Run TUI.
     """
     # must do this before setting up preferences
-    root = tkinter.Tk()
     root.withdraw()
     # if console exists, hide it
     try:
