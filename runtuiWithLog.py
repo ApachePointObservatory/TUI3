@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Launch TUI, the APO 3.5m telescope user interface.
 
 Location is everything:
@@ -22,71 +22,6 @@ History:
                     and to start the log with a timestamp and TUI version.
 2014-11-13 ROwen    Modified log file name format to eliminate colons.
 """
-import glob
-import os
-import sys
-import time
-import traceback
-import TUI.Version
+import TUI.Main
+TUI.Main.runTUIWithLog()
 
-LogPrefix = "%slog" % (TUI.Version.ApplicationName.lower(),)
-LogSuffix = ".txt"
-LogDirName = "%s_logs" % (TUI.Version.ApplicationName.lower(),)
-MaxOldLogs = 10
-
-if sys.platform == "darwin":
-    tcllibDir = os.path.join(os.path.dirname(__file__), "tcllib")
-    if os.path.isdir(tcllibDir):
-        os.environ["TCLLIBPATH"] = tcllibDir
-
-# Open a new log file and purge excess old log files
-# If cannot open new log file then use default stderr.
-errLog = None
-try:
-    import RO.OS
-    docsDir = RO.OS.getDocsDir()
-    if not docsDir:
-        raise RuntimeError("Could not find your documents directory")
-    logDir = os.path.join(docsDir, LogDirName)
-    if not os.path.exists(logDir):
-        os.mkdir(logDir)
-    if not os.path.isdir(logDir):
-        raise RuntimeError("Could not create log dir %r" % (logDir,))
-
-    # create new log file        
-    dateStr = time.strftime("%Y-%m-%dT%H_%M_%S", time.gmtime())
-    logName = "%s%s%s" % (LogPrefix, dateStr, LogSuffix)
-    logPath = os.path.join(logDir, logName)
-    #errLog = file(logPath, "w", 1) # bufsize=1 means line buffered
-    errLog = open(logPath, mode='w', buffering=1)
-
-    # purge excess old log files
-    oldLogGlobStr = os.path.join(docsDir, "%s????-??-??:??:??:??%s" % (LogPrefix, LogSuffix))
-    oldLogPaths = glob.glob(oldLogGlobStr)
-    if len(oldLogPaths) > MaxOldLogs:
-        oldLogPaths = list(reversed(sorted(oldLogPaths)))
-        for oldLogPath in oldLogPaths[MaxOldLogs:]:
-            try:
-                os.remove(oldLogPath)
-            except Exception as e:
-                errLog.write("Could not delete old log file %r: %s\n" % (oldLogPath, e))
-
-except OSError as e:
-    sys.stderr.write("Warning: could not open log file so using stderr\nError=%s\n" % (e,))
-
-try:
-    if errLog:
-        sys.stderr = errLog
-        sys.stdout = errLog
-        import time
-        import TUI.Version
-        startTimeStr = time.strftime("%Y-%m-%dT%H:%M:%S")
-        errLog.write("TUI %s started %s\n" % (TUI.Version.VersionStr, startTimeStr))
-    
-    import TUI.Main
-    TUI.Main.runTUI()
-except Exception as e:
-    traceback.print_exc(file=sys.stderr)
-
-if errLog:
-    errLog.close()

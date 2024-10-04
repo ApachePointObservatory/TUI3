@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Launch TUI, the APO 3.5m telescope user interface.
 
 Location is everything:

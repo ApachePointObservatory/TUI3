@@ -59,9 +59,11 @@ This is the main routine that calls everything else.
                     Modified to only show the version name, not version date, in the log at startup.
 2014-02-12 ROwen    Added a call to reopen script windows.
 """
+import glob
 import os
 import sys
 import time
+import traceback
 import tkinter
 
 ## Initiate Tk toplevel before importing matplotlib
@@ -96,6 +98,77 @@ import TUI.Version
 
 # hack for pyinstaller 1.3
 sys.executable = os.path.abspath(sys.executable)
+
+def runTUIWithLog():
+   
+    import glob
+    import os
+    import sys
+    import time
+    import traceback
+    import TUI.Version
+
+    LogPrefix = "%slog" % (TUI.Version.ApplicationName.lower(),)
+    LogSuffix = ".txt"
+    LogDirName = "%s_logs" % (TUI.Version.ApplicationName.lower(),)
+    MaxOldLogs = 10
+    
+    if sys.platform == "darwin":
+        tcllibDir = os.path.join(os.path.dirname(__file__), "tcllib")
+        if os.path.isdir(tcllibDir):
+            os.environ["TCLLIBPATH"] = tcllibDir
+    
+    # Open a new log file and purge excess old log files
+    # If cannot open new log file then use default stderr.
+    errLog = None
+    try:
+        import RO.OS
+        docsDir = RO.OS.getDocsDir()
+        if not docsDir:
+            raise RuntimeError("Could not find your documents directory")
+        logDir = os.path.join(docsDir, LogDirName)
+        if not os.path.exists(logDir):
+            os.mkdir(logDir)
+        if not os.path.isdir(logDir):
+            raise RuntimeError("Could not create log dir %r" % (logDir,))
+    
+        # create new log file        
+        dateStr = time.strftime("%Y-%m-%dT%H_%M_%S", time.gmtime())
+        logName = "%s%s%s" % (LogPrefix, dateStr, LogSuffix)
+        logPath = os.path.join(logDir, logName)
+        #errLog = file(logPath, "w", 1) # bufsize=1 means line buffered
+        errLog = open(logPath, mode='w', buffering=1)
+    
+        # purge excess old log files
+        oldLogGlobStr = os.path.join(docsDir, "%s????-??-??:??:??:??%s" % (LogPrefix, LogSuffix))
+        oldLogPaths = glob.glob(oldLogGlobStr)
+        if len(oldLogPaths) > MaxOldLogs:
+            oldLogPaths = list(reversed(sorted(oldLogPaths)))
+            for oldLogPath in oldLogPaths[MaxOldLogs:]:
+                try:
+                    os.remove(oldLogPath)
+                except Exception as e:
+                    errLog.write("Could not delete old log file %r: %s\n" % (oldLogPath, e))
+    
+    except OSError as e:
+        sys.stderr.write("Warning: could not open log file so using stderr\nError=%s\n" % (e,))
+    
+    try:
+        if errLog:
+            sys.stderr = errLog
+            sys.stdout = errLog
+            import time
+            import TUI.Version
+            startTimeStr = time.strftime("%Y-%m-%dT%H:%M:%S")
+            errLog.write("TUI %s started %s\n" % (TUI.Version.VersionStr, startTimeStr))
+        
+        runTUI()
+    except Exception as e:
+        traceback.print_exc(file=sys.stderr)
+    
+    if errLog:
+        errLog.close()
+
 
 def runTUI():
     """Run TUI.
