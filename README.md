@@ -88,7 +88,7 @@ For M1 and M2 ```ARM64``` architectures, we build TUI as an ```x86_64``` applica
 
 ### Windows
 
-From the command prompt, navigate to the TUI3 directory and run ```python setup.py install```. The TUI3 executable should be installed in ```C:\Users\<your user directory>\AppData\Local\Programs\Python\Python<version>\Scripts\runtui.exe```. Navigate to it in File Explorer, right-click ```runtui.exe``` and click "Send to -> Desktop (create shortcut)". The resulting desktop shortcut can be double-clicked to run TUI3.
+From the command prompt, navigate to the TUI3 directory and run ```python setup.py install --user```. The TUI3 executable should be installed in ```C:\Users\<your user directory>\AppData\Local\Programs\Python\Python<version>\Scripts\runtui.exe```. Navigate to it in File Explorer, right-click ```runtui.exe``` and click "Send to -> Desktop (create shortcut)". The resulting desktop shortcut can be double-clicked to run TUI3.
 
 
 ## Bug Reporting
