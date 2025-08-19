@@ -116,6 +116,7 @@ class AboutWdg(RO.Wdg.StrLabel):
             text = """APO 3.5m Telescope User Interface
 Version %(tui)s
 by Russell Owen
+Maintained by Gordon MacDonald
 
 Special files:
 %(specialFiles)s
