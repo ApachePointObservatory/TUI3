@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "TUI"
+version = "3.1.1-a0"
+authors = [
+    {name="Russel Owen"},
+    {name="Gordon MacDonald", email="gmacdonald@apo.nmsu.edu"},
+]
+description = "A Telescope User Interface for the ARC 3.5m telescope."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Framework :: Twisted",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+dependencies = [
+    "astropy",
+    "matplotlib",
+    "numpy",
+    "pillow",
+    "pmw",
+    "pygame",
+    "scipy",
+    "twisted",
+    "pyobjc; sys_platform == 'darwin'",
+    "pywin32; sys_platform == 'win32'",
+]
+
+[project.urls]
+Homepage = "https://github.com/ApachePointObservatory/TUI3"
+Issues = "https://github.com/ApachePointObservatory/TUI3/issues"
+
+[tool.setuptools.package-data]
+"TUI" = [
+    "Grids/**",
+    "Help/**",
+    "Sounds/**",
+]
+"RO" = ["Bitmaps/*"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "TUI*",
+    "RO*",
+]
+
+[project.scripts]
+tui = "TUI.Main:runTUIWithLog"
