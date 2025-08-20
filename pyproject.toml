@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "TUI"
-version = "3.1.1-a0"
+dynamic = ["version"]
 authors = [
     {name="Russel Owen"},
     {name="Gordon MacDonald", email="gmacdonald@apo.nmsu.edu"},
@@ -35,6 +35,9 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/ApachePointObservatory/TUI3"
 Issues = "https://github.com/ApachePointObservatory/TUI3/issues"
+
+[tool.setuptools.dynamic]
+version = { attr = "TUI.Version.VersionName" }
 
 [tool.setuptools.package-data]
 "TUI" = [
