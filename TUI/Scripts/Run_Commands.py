@@ -166,6 +166,10 @@ class ScriptClass(object):
     def run(self, sr):
         self.textWdg.focus_get()
         textStr = self.getData()
+        if not textStr.isascii():
+            raise sr.ScriptError(
+                    "Non-ASCII character(s) detected in this run commands script."
+                    )
         textList = textStr.split("\n")
         lineNum = 0
         for line in textList:
