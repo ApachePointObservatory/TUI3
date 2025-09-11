@@ -94,7 +94,10 @@ class _MenuNode:
         for path in self.pathList:
             for baseName in os.listdir(path):
                 # reject files that would be invisible on unix
+                # and any directories named __pycache__.
                 if baseName.startswith("."):
+                    continue
+                elif baseName == "__pycache__":
                     continue
         
                 baseBody, baseExt = os.path.splitext(baseName)
