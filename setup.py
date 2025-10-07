@@ -32,7 +32,7 @@ sys.path = [roRoot, tuiRoot] + sys.path
 import TUI.Version
 
 appName = TUI.Version.ApplicationName
-mainProg = os.path.join(tuiRoot, "runtuiWithLog.py")
+mainProg = os.path.join(tuiRoot, "tui.py")
 iconFile = "%s.icns" % appName
 fullVersStr = TUI.Version.VersionStr
 shortVersStr = fullVersStr.split(None, 1)[0]
@@ -91,7 +91,7 @@ elif platformSystem == "Windows":
     platformOptions = {
         'windows' : [mainProg],
         'entry_points' : {
-            'console_scripts' : ['runtui = TUI.Main:runTUI'],
+            'console_scripts' : ['tui = TUI.Main:runTUI'],
             },
         'install_requires' : ("matplotlib", "numpy", "astropy", "pillow"),
         'package_dir' : {
@@ -110,7 +110,7 @@ elif platformSystem == "Linux":
     platformOptions = {
         'scripts' : [mainProg],
         'entry_points' : {
-            'console_scripts' : ['runtui.py = TUI.Main:runTUI'],
+            'console_scripts' : ['tui = TUI.Main:runTUI'],
             },
         'install_requires' : ("matplotlib", "numpy", "astropy", "pillow", "pygame"),
         'package_dir' : {
