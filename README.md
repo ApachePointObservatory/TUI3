@@ -79,6 +79,8 @@ If you don't have git tools installed, open a browser and go to [the TUI3 repo](
 
 Next, do a ```cd TUI3``` followed by ```pip install .```.
 
+Type ```tui``` into the command line to run TUI.
+
 ## Bug Reporting
 
 We want to hear from you! Contact us if you find a bug.
