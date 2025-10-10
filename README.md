@@ -39,24 +39,7 @@ Users may use PowerShell on Windows platforms. Also, the Windows command line is
 
 ### Required Python Packages
 
-TUI 3.x needs the following packages to run:
-
-	* astropy
-	* matplotlib
-	* numpy
-	* pillow
-	* twisted
-	* pyobjc (MacOS only)
-	* pywin32 (Windows only)
-
-From a commandline, do the following command: ```pip install astropy matplotlib numpy pillow twisted```.
-
-On some platforms, administrative privileges are needed to do a system-wide package install. In these cases, it's OK to run ```pip install --user <package names here>```.
-
-On some Windows platforms, ```pip``` can be executed by doing ```py -m pip install <package names here>``` from the Windows command line. However, most of the time the aforementioned commands will work.
-
-Most Python distributions include pre-compiled TclTk support, but not always. Double check to make sure the package ```tkinter``` is installed and available to Python by doing ```python -m tkinter```. If not, consult your OS documentation to resolve the issue.
-
+The new ```pip``` installation method for this package should download and install dependencies automatically. Have a look at the ```pyproject.toml``` file to review those dependencies.
 
 ### Optional Packages
 
@@ -83,4 +66,4 @@ Type ```tui``` into the command line to run TUI.
 
 ## Bug Reporting
 
-We want to hear from you! Contact us if you find a bug.
+We want to hear from you! Post an Issue on the issues tab if you find a bug.
