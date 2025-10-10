@@ -1,6 +1,14 @@
 # TUI3
 
-Apache Point Observatory now offers TUI with full Python 3.x support. Users are encouraged to upgrade their system to the most recent version of Python 3.x. Support for TUI v2.6.0 and earlier has been discontinued.
+Apache Point Observatory now offers TUI with full Python 3.x support. Users are encouraged to upgrade their system to the most recent version of Python 3.x. Support for TUI v2.6.x and earlier has been discontinued.
+
+
+## Use One of Our Pyinstaller-Bundled Executables!
+
+	1) Find the Releases section on the right hand side of this GitHub Repo page.
+	2) Select the most recent release.
+	3) Find the approproate binary release for your platform and download it (disk image for Mac platforms).
+	4) Run TUI by opening the downloaded binary consistently with your platform. Windows and Mac users can double-click, while Linux users should execute the binary in the terminal.
 
 
 ## Installation Prerequisites
@@ -56,40 +64,22 @@ The following Python Packages and external software are optional, but increase t
 
 	* The Python pygame package
 	* SAOImageDS9
-	* XPA Library
+	* XPA Library (unavailable for Windows)
 
 If standard TUI sound output is desired, then install ```pygame``` by doing a ```pip install pygame``` from the command line. Note that for Mac and Linux platforms, the installation of ```pygame``` is required by the ```setup.py``` script.
 
 
 ## Install TUI3
 
-### Download a Current Release from GitHub
-
-Open a browser and go to [the TUI3 repo](https://github.com/ApachePointObservatory/TUI3). Select the most recent source release in the upper-corner, and then download a zip file. Unzip to a suitable source directory.
+Open a terminal window. For Windows users, PowerShell or the Command Prompt (cmd) will work.
 
 If you have the git command line interface installed, navigate to a suitable source directory and do a ```git clone --branch <most recent release> --recurse-submodules https://github.com/ApachePointObservatory/TUI3.git```.
 
+If you don't have git tools installed, open a browser and go to [the TUI3 repo](https://github.com/ApachePointObservatory/TUI3). Select the most recent source release in the upper-corner, and then download a zip file. Unzip to a suitable source directory.
 
-### Linux
+[Download the RO package](https://github.com/ApachePointObservatory/RO3) and place it in the ```TUI3``` directory. Make sure that the top-level directory of the RO package is named ```RO``` (not RO3).
 
-In your terminal window, navigate to the newly created TUI3 directory and issue the command ```python setup.py install```. Issue the command ```runtuiWithLog.py``` or ```runtui.py``` to run TUI.
-
-Note that superuser privileges are needed to do a system-wide installation (recommended).
-
-If your user account doesn't have administrative privileges, TUI3 can be installed in user context by appending the ```--prefix <path to your desired user installation of TUI>``` to the end of the aforementioned installation command. TUI's installation path will then need to be added to the ```PYTHONPATH``` environment variable.
-
-
-### MacOS
-
-From the TUI3 root directory, do ```python3 setup.py py2app```. A ```dmg``` image will be created in the ```dist/``` directory. Navigate to that file, open it, and drag-and-drop the TUI.app object into the Applications Folder in Finder. TUI3 should now be available in Finder.
-
-For M1 and M2 ```ARM64``` architectures, we build TUI as an ```x86_64``` application and allow the Rosetta translation layer to handle everything. Make sure to install all dependent packages in an ```x86_64``` environment by doing ```arch -x86_64 pip3 install <package-name>```. Then, from the TUI3 root directory, do ```arch -x86_64 python3 setup.py py2app --arch x86_64``` to build TUI.
-
-
-### Windows
-
-From the command prompt, navigate to the TUI3 directory and run ```python setup.py install --user```. The TUI3 executable should be installed in ```C:\Users\<your user directory>\AppData\Local\Programs\Python\Python<version>\Scripts\runtui.exe```. Navigate to it in File Explorer, right-click ```runtui.exe``` and click "Send to -> Desktop (create shortcut)". The resulting desktop shortcut can be double-clicked to run TUI3.
-
+Next, do a ```cd TUI3``` followed by ```pip install .```.
 
 ## Bug Reporting
 
