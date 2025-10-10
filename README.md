@@ -34,7 +34,7 @@ In MacOS, open Finder, and open the /Applications/Utilities folder, then double-
 
 Linux window managers include a terminal as a standard application. For example, GNOME Terminal can be accessed by hitting the Super Key, then typing "Terminal", and clicking the application icon.
 
-The Windows command line is accessed from the Start Menu and typing "cmd", then clicking the "Command Prompt" application.
+Users may use PowerShell on Windows platforms. Also, the Windows command line is accessed from the Start Menu and typing "cmd", then clicking the "Command Prompt" application.
 
 
 ### Required Python Packages
@@ -70,8 +70,6 @@ If standard TUI sound output is desired, then install ```pygame``` by doing a ``
 
 
 ## Install TUI3
-
-Open a terminal window. For Windows users, PowerShell or the Command Prompt (cmd) will work.
 
 If you have the git command line interface installed, navigate to a suitable source directory and do a ```git clone --branch <most recent release> --recurse-submodules https://github.com/ApachePointObservatory/TUI3.git```.
 
