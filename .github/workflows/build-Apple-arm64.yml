@@ -24,7 +24,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install pyinstaller
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-apple.txt ]; then pip install -r requirements-apple.txt; fi
 
       - name: Build with PyInstaller
         run: |
@@ -35,5 +35,6 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: tui-macos-arm64
+          name: tui-macos-26-arm64
           path: dist/TUI.dmg
+          archive: false
