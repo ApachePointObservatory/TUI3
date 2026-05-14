@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-mac-arm64:
+  build-mac-26-arm64:
     # Use macos-14 (or newer) for Apple Silicon runners
-    runs-on: macos-latest
+    runs-on: macos-26
     
     steps:
       - name: Checkout Code
