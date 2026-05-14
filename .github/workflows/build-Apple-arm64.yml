@@ -1,0 +1,39 @@
+name: Build TUI for Apple Silicon
+
+on:
+  push:
+    branches: [ test_githubActions ]
+  workflow_dispatch:
+
+jobs:
+  build-mac-arm64:
+    # Use macos-14 (or newer) for Apple Silicon runners
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          # No special 'arch' needed here, runs-on provides native arm64
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pyinstaller
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller --collect-all RO --collect-all TUI --collect-all Pmw --collect-all PIL --collect-all twisted --collect-all astropy --collect-all matplotlib --collect-all numpy --collect-all pygame --collect-all scipy --add-data TUI:TUI --add-data RO:RO --icon TUI.icns --windowed --onefile tui.py
+          # Save into a DMG file.
+          hdiutil create -volname "TUI" -srcfolder "dist/tui.app" -ov -format UDZO "TUI.dmg"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tui-macos-arm64
+          path: dist/TUI.dmg
