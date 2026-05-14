@@ -8,7 +8,7 @@ on:
 jobs:
   build-mac-26-arm64:
     # Use macos-14 (or newer) for Apple Silicon runners
-    runs-on: macos-26
+    runs-on: macos-15-intel
     
     steps:
       - name: Checkout Code
@@ -30,11 +30,11 @@ jobs:
         run: |
           pyinstaller --collect-all RO --collect-all TUI --collect-all Pmw --collect-all PIL --collect-all twisted --collect-all astropy --collect-all matplotlib --collect-all numpy --collect-all pygame --collect-all scipy --add-data TUI:TUI --add-data RO:RO --icon TUI.icns --windowed --onefile tui.py
           # Save into a DMG file.
-          hdiutil create -volname "TUI" -srcfolder "dist/tui.app" -ov -format UDZO "dist/TUI.dmg"
+          hdiutil create -volname "TUI" -srcfolder "dist/tui.app" -ov -format UDZO "dist/tui-macos-26-arm64.dmg"
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: tui-macos-26-arm64
-          path: dist/TUI.dmg
+          path: dist/tui-macos-26-arm64.dmg
           archive: false
