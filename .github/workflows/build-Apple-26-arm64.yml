@@ -31,7 +31,7 @@ jobs:
   
       - name: Get TUI VersionName
           run: | VERSION_NAME=$(python3 -c "import TUI.Version; print(TUI.Version.VersionName)")
-           echo "TUI_VERSION_NAME=$VERSION_NAME" >> "$GITHUB_ENV"
+           echo "TUI_VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 
       - name: Build with PyInstaller
         run: |
