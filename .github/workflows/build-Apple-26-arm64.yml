@@ -68,7 +68,7 @@ jobs:
         run: |
           pyinstaller --collect-all RO --collect-all TUI --collect-all Pmw --collect-all PIL --collect-all twisted --collect-all astropy --collect-all matplotlib --collect-all numpy --collect-all pygame --collect-all scipy --add-data TUI:TUI --add-data RO:RO --icon TUI.icns --windowed --onefile tui.py
           # Save into a DMG file.
-          hdiutil create -volname "TUI" -srcfolder "dist/tui.app" -ov -format UDZO "dist/tui-macos-26-x86_64.dmg"
+          hdiutil create -size 200m -volname "TUI" -srcfolder "dist/tui.app" -ov -format UDZO "dist/tui-macos-26-x86_64.dmg"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
