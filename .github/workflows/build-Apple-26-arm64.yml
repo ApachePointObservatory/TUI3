@@ -50,8 +50,8 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: tui-${{ env.TUI_VERSION_NAME }}-${{ env.RUNNER_OS }}-${{ env.RUNNER_ARCH }}.dmg
-          path: dist/tui-${{ env.TUI_VERSION_NAME }}-${{ env.RUNNER_OS }}-${{ env.RUNNER_ARCH }}.dmg
+          name: tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}.dmg
+          path: dist/tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}.dmg
           archive: false
 
   build-mac-x86_64:
@@ -96,6 +96,6 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: tui-${{ env.TUI_VERSION_NAME }}-${{ env.RUNNER_OS }}-${{ env.RUNNER_ARCH }}.dmg
-          path: dist/tui-${{ env.TUI_VERSION_NAME }}-${{ env.RUNNER_OS }}-${{ env.RUNNER_ARCH }}.dmg
+          name: tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}.dmg
+          path: dist/tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}.dmg
           archive: false
