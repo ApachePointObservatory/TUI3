@@ -7,7 +7,7 @@ on:
 
 
 jobs:
-  build-mac-26-arm64:
+  build-mac-arm64:
     # Use macos-14 (or newer) for Apple Silicon runners
     runs-on: macos-26
     
@@ -33,7 +33,6 @@ jobs:
         run: | 
           VERSION_NAME=$(python3 -c "import TUI.Version; print(TUI.Version.VersionName)")
           echo "TUI_VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-          echo "TUI $TUI_VERSION_NAME; OS $RUNNER_OS; arch $RUNNER_ARCH"
 
       - name: Build with PyInstaller
         run: |
@@ -46,16 +45,16 @@ jobs:
           # Save into a DMG file.
           hdiutil create -size 200m \
             -volname "TUI_${TUI_VERSION_NAME}" -srcfolder "dist/tui.app" \
-            -ov -format UDZO "dist/tui-${RUNNER_OS}-${RUNNER_ARCH}.dmg"
+            -ov -format UDZO "dist/tui-${TUI_VERSION_NAME}-${RUNNER_OS}-${RUNNER_ARCH}.dmg"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: tui-${RUNNER_OS}-${RUNNER_ARCH}.dmg
-          path: dist/tui-${RUNNER_OS}-${RUNNER_ARCH}.dmg
+          name: tui-${{ env.TUI_VERSION_NAME }}-${{ env.RUNNER_OS }}-${{ env.RUNNER_ARCH }}.dmg
+          path: dist/tui-${{ env.TUI_VERSION_NAME }}-${{ env.RUNNER_OS }}-${{ env.RUNNER_ARCH }}.dmg
           archive: false
 
-  build-mac-26-x86_64:
+  build-mac-x86_64:
     runs-on: macos-26-intel
     
     steps:
@@ -80,7 +79,6 @@ jobs:
         run: | 
           VERSION_NAME=$(python3 -c "import TUI.Version; print(TUI.Version.VersionName)")
           echo "TUI_VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-          echo "TUI $TUI_VERSION_NAME; OS $RUNNER_OS; arch $RUNNER_ARCH"
 
       - name: Build with PyInstaller
         run: |
@@ -93,11 +91,11 @@ jobs:
           # Save into a DMG file.
           hdiutil create -size 200m \
             -volname "TUI_${TUI_VERSION_NAME}" -srcfolder "dist/tui.app" \
-            -ov -format UDZO "dist/tui-${RUNNER_OS}-${RUNNER_ARCH}.dmg"
+            -ov -format UDZO "dist/tui-${TUI_VERSION_NAME}-${RUNNER_OS}-${RUNNER_ARCH}.dmg"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: tui-${RUNNER_OS}-${RUNNER_ARCH}.dmg
-          path: dist/tui-${RUNNER_OS}-${RUNNER_ARCH}.dmg
+          name: tui-${{ env.TUI_VERSION_NAME }}-${{ env.RUNNER_OS }}-${{ env.RUNNER_ARCH }}.dmg
+          path: dist/tui-${{ env.TUI_VERSION_NAME }}-${{ env.RUNNER_OS }}-${{ env.RUNNER_ARCH }}.dmg
           archive: false
