@@ -23,11 +23,11 @@ jobs:
           python-version: '3.13'
           # No special 'arch' needed here, runs-on provides native arm64
 
-      - name: Install Dependencies
-        run: |
-          pip install --upgrade pip
-          pip install pyinstaller
-          if [ -f requirements-apple.txt ]; then pip install -r requirements-apple.txt; fi
+            #      - name: Install Dependencies
+            #        run: |
+            #          pip install --upgrade pip
+            #          pip install pyinstaller
+            #          if [ -f requirements-apple.txt ]; then pip install -r requirements-apple.txt; fi
   
       - name: Get TUI VersionName
         run: | 
@@ -36,7 +36,7 @@ jobs:
 
       - name: Build with PyInstaller
         run: |
-          echo "TUI $TUI_VERSION+NAME OS $env:RUNNER_OS arch env:RUNNER_ARCH"
+          echo "TUI $TUI_VERSION_NAME OS $RUNNER_OS arch $RUNNER_ARCH"
           #pyinstaller --collect-all RO --collect-all TUI --collect-all Pmw \
           #  --collect-all PIL --collect-all twisted --collect-all astropy \
           #  --collect-all matplotlib --collect-all numpy --collect-all pygame \
