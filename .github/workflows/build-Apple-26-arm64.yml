@@ -8,7 +8,7 @@ on:
 jobs:
   build-mac-26-arm64:
     # Use macos-14 (or newer) for Apple Silicon runners
-    runs-on: macos-15-intel
+    runs-on: macos-26
     
     steps:
       - name: Checkout Code
@@ -32,12 +32,49 @@ jobs:
         run: |
           pyinstaller --collect-all RO --collect-all TUI --collect-all Pmw --collect-all PIL --collect-all twisted --collect-all astropy --collect-all matplotlib --collect-all numpy --collect-all pygame --collect-all scipy --add-data TUI:TUI --add-data RO:RO --icon TUI.icns --windowed --onefile tui.py
           # Save into a DMG file.
-          #hdiutil create -volname "TUI" -srcfolder "dist/tui.app" -ov -format UDZO "dist/tui-macos-26-arm64.dmg"
+          hdiutil create -volname "TUI" -srcfolder "dist/tui.app" -ov -format UDZO "dist/tui-macos-26-arm64.dmg"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: tui-macos-26-arm64
-            #path: dist/tui-macos-26-arm64.dmg
-          path: dist/tui.app
-            #archive: false
+          name: tui-macos-26-arm64.dmg
+          path: dist/tui-macos-26-arm64.dmg
+            #path: dist/tui.app
+          archive: false
+
+  build-mac-26-x86_64:
+    # Use macos-14 (or newer) for intel runners
+    runs-on: macos-26-intel
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          # No special 'arch' needed here, runs-on provides native arm64
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pyinstaller
+          if [ -f requirements-apple.txt ]; then pip install -r requirements-apple.txt; fi
+
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller --collect-all RO --collect-all TUI --collect-all Pmw --collect-all PIL --collect-all twisted --collect-all astropy --collect-all matplotlib --collect-all numpy --collect-all pygame --collect-all scipy --add-data TUI:TUI --add-data RO:RO --icon TUI.icns --windowed --onefile tui.py
+          # Save into a DMG file.
+          hdiutil create -volname "TUI" -srcfolder "dist/tui.app" -ov -format UDZO "dist/tui-macos-26-x86_64.dmg"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: tui-macos-26-x86_64.dmg
+          path: dist/tui-macos-26-x86_64.dmg
+            #path: dist/tui.app
+          archive: false
+
