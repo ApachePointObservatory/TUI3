@@ -18,7 +18,7 @@ jobs:
           submodules: 'recursive'
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.13'
           # No special 'arch' needed here, runs-on provides native arm64
@@ -65,7 +65,7 @@ jobs:
           submodules: 'recursive'
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.13'
           # No special 'arch' needed here
@@ -112,7 +112,7 @@ jobs:
           submodules: 'recursive'
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
@@ -155,7 +155,7 @@ jobs:
           submodules: 'recursive'
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
