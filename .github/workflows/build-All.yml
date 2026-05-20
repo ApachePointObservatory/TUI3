@@ -1,8 +1,8 @@
-name: Build TUI on all supported platforms
+name: Build TUI on all supported platforms and Release
 on:
   push:
-    branches: [ test_githubActions ]
-  workflow_dispatch:
+    tags:
+      - 'v*'
 
 
 jobs:
@@ -189,3 +189,27 @@ jobs:
           name: tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}.exe
           path: dist/tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}.exe
           archive: false
+
+  release:
+    needs: [build-mac-arm64, build-mac-x86_64, build-linux-x86_64, build-windows-x86_64]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Create Release and Upload Assets
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: TUI ${{ github.ref_name }}
+          files: release-assets/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
