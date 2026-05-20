@@ -37,11 +37,11 @@ jobs:
       - name: Build with PyInstaller
         shell: pwsh
         run: |
-          pyinstaller --collect-all RO --collect-all TUI --collect-all Pmw \
-            --collect-all PIL --collect-all twisted --collect-all astropy \
-            --collect-all matplotlib --collect-all numpy --collect-all pygame \
-            --collect-all scipy \
-            --add-data TUI:TUI --add-data RO:RO \
+          pyinstaller --collect-all RO --collect-all TUI --collect-all Pmw `
+            --collect-all PIL --collect-all twisted --collect-all astropy `
+            --collect-all matplotlib --collect-all numpy --collect-all pygame `
+            --collect-all scipy `
+            --add-data TUI:TUI --add-data RO:RO `
             --icon TUI.icns --windowed --onefile tui.py
           mv dist/tui.exe dist/tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}.exe
 
