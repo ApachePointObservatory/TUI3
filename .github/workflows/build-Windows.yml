@@ -22,10 +22,11 @@ jobs:
           python-version: '3.12'
 
       - name: Install Dependencies
+        shell: pwsh
         run: |
           pip install --upgrade pip
           pip install pyinstaller
-          if [ -f requirements-windows.txt ]; then pip install -r requirements-windows.txt; fi
+          if (Test-Path requirements-windows.txt) {pip install -r requirements-windows.txt}
   
       - name: Get TUI VersionName
         run: | 
