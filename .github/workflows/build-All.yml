@@ -1,5 +1,4 @@
-name: Build TUI for MacOS on Apple Silicon and x86_64
-
+name: Build TUI on all supported platforms
 on:
   push:
     branches: [ test_githubActions ]
@@ -8,12 +7,13 @@ on:
 
 jobs:
   build-mac-arm64:
+    name: Build TUI for MacOS on Apple Silicon
     # Use macos-14 (or newer) for Apple Silicon runners
     runs-on: macos-26
     
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: 'recursive'
 
@@ -55,11 +55,12 @@ jobs:
           archive: false
 
   build-mac-x86_64:
+    name: Build TUI for MacOS on x86_64
     runs-on: macos-26-intel
     
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: 'recursive'
 
@@ -98,4 +99,93 @@ jobs:
         with:
           name: tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}.dmg
           path: dist/tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}.dmg
+          archive: false
+
+  build-linux-x86_64:
+    name: Build TUI for Linux x86_64 
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+        with:
+          submodules: 'recursive'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pyinstaller
+          if [ -f requirements-linux.txt ]; then pip install -r requirements-linux.txt; fi
+  
+      - name: Get TUI VersionName
+        run: | 
+          VERSION_NAME=$(python3 -c "import TUI.Version; print(TUI.Version.VersionName)")
+          echo "TUI_VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller --collect-all RO --collect-all TUI --collect-all Pmw \
+            --collect-all PIL --collect-all twisted --collect-all astropy \
+            --collect-all matplotlib --collect-all numpy --collect-all pygame \
+            --collect-all scipy \
+            --add-data TUI:TUI --add-data RO:RO \
+            --icon TUI.icns --windowed --onefile tui.py
+          mv dist/tui dist/tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}
+          path: dist/tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}
+          archive: false
+
+  build-windows-x86_64:
+    name: Build TUI for Windows x86_64 
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+        with:
+          submodules: 'recursive'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        shell: pwsh
+        run: |
+          pip install --upgrade pip
+          pip install pyinstaller
+          if (Test-Path requirements-windows.txt) {pip install -r requirements-windows.txt}
+  
+      - name: Get TUI VersionName
+        shell: pwsh
+        run: | 
+          $VERSION_NAME=$(python3 -c "import TUI.Version; print(TUI.Version.VersionName)")
+          echo "TUI_VERSION_NAME=$VERSION_NAME" >> $env:GITHUB_ENV
+
+      - name: Build with PyInstaller
+        shell: pwsh
+        run: |
+          pyinstaller --collect-all RO --collect-all TUI --collect-all Pmw `
+            --collect-all PIL --collect-all twisted --collect-all astropy `
+            --collect-all matplotlib --collect-all numpy --collect-all pygame `
+            --collect-all scipy `
+            --add-data TUI:TUI --add-data RO:RO `
+            --icon TUI.icns --windowed --onefile tui.py
+          mv dist/tui.exe dist/tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}.exe
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}.exe
+          path: dist/tui-${{ env.TUI_VERSION_NAME }}-${{ runner.os }}-${{ runner.arch }}.exe
           archive: false
