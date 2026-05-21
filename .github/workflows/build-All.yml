@@ -41,6 +41,7 @@ jobs:
             --collect-all matplotlib --collect-all numpy --collect-all pygame \
             --collect-all scipy \
             --add-data TUI:TUI --add-data RO:RO \
+            --runtime-hook pyinstaller-hooks/apple-path-hook.py \
             --icon TUI.icns --windowed --onefile tui.py
           # Save into a DMG file.
           hdiutil create -size 200m \
@@ -88,6 +89,7 @@ jobs:
             --collect-all matplotlib --collect-all numpy --collect-all pygame \
             --collect-all scipy \
             --add-data TUI:TUI --add-data RO:RO \
+            --runtime-hook pyinstaller-hooks/apple-path-hook.py \
             --icon TUI.icns --windowed --onefile tui.py
           # Save into a DMG file.
           hdiutil create -size 200m \
